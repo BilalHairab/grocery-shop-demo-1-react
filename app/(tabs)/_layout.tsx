@@ -1,21 +1,26 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from '.';
+import OrderScreen from './order';
+import CartScreen from './cart';
+import MoreScreen from './more';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const Tabs = createBottomTabNavigator()
   return (
-    <Tabs
+    <Tabs.Navigator
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}>
       <Tabs.Screen
         name="index"
+        component={HomeScreen}
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
@@ -25,6 +30,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="order"
+        component={OrderScreen}
         options={{
           title: 'Order',
           tabBarIcon: ({ color, focused }) => (
@@ -34,6 +40,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="cart"
+        component={CartScreen}
         options={{
           title: 'Cart',
           tabBarIcon: ({ color, focused }) => (
@@ -43,6 +50,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="more"
+        component={MoreScreen}
         options={{
           title: 'More',
           tabBarIcon: ({ color, focused }) => (
@@ -50,6 +58,6 @@ export default function TabLayout() {
           ),
         }}
       />
-    </Tabs>
+    </Tabs.Navigator>
   );
 }
