@@ -3,24 +3,45 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+const primary = '#002d5c';
+const secondaryFocus = '#ed00b8';
+const unFocus = '#fff';
+const backgroundLight = '#F0F0F0';
+const backgroundDark = '#0f002e';
+const overflow = '#AAF0F0F0';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    primary,
+    overflow,
+    secondaryFocus,
+    text: backgroundDark,
+    unfocus: unFocus,
+    background: backgroundLight,
+    tint: unFocus,
+    icon: backgroundDark,
+    tabIconDefault: unFocus,
+    tabIconSelected: secondaryFocus,
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    primary,
+    overflow,
+    secondaryFocus,
+    text: backgroundLight,
+    unfocus: unFocus,
+    background: backgroundDark,
+    tint: unFocus,
+    icon: backgroundLight,
+    tabIconDefault: unFocus,
+    tabIconSelected: secondaryFocus,
   },
 };
+
+export const individualColors = {
+  primary,
+  secondaryFocus,
+  unFocus,
+  backgroundLight,
+  backgroundDark,
+  overflow,
+}

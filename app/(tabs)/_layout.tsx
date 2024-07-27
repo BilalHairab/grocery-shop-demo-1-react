@@ -1,22 +1,29 @@
 import React from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '.';
 import OrderScreen from './order';
 import CartScreen from './cart';
 import MoreScreen from './more';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const background = useThemeColor({}, 'background');
+  const tabIconActive = useThemeColor({}, 'tabIconSelected');
+  const tabIconInactive = useThemeColor({}, 'tabIconDefault');
+
   const Tabs = createBottomTabNavigator()
   return (
     <Tabs.Navigator
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: tabIconActive,
         headerShown: false,
+        tabBarInactiveTintColor: tabIconInactive,
+        tabBarStyle: {
+          backgroundColor: background,
+          borderTopWidth: 0,
+        }
       }}>
       <Tabs.Screen
         name="index"
