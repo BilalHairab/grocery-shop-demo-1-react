@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
+import { Icon } from '@/components/navigation/Icon';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '.';
 import OrderScreen from './order';
@@ -9,7 +9,7 @@ import MoreScreen from './more';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function TabLayout() {
-  const background = useThemeColor({}, 'background');
+  const background = useThemeColor({}, 'primary');
   const tabIconActive = useThemeColor({}, 'tabIconSelected');
   const tabIconInactive = useThemeColor({}, 'tabIconDefault');
 
@@ -31,7 +31,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <Icon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
         }}
       />
@@ -41,7 +41,7 @@ export default function TabLayout() {
         options={{
           title: 'Order',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'list' : 'list-outline'} color={color} />
+            <Icon name={focused ? 'list' : 'list-outline'} color={color} />
           ),
         }}
       />
@@ -51,7 +51,7 @@ export default function TabLayout() {
         options={{
           title: 'Cart',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'cart' : 'cart-outline'} color={color} />
+            <Icon name={focused ? 'cart' : 'cart-outline'} color={color} />
           ),
         }}
       />
@@ -61,7 +61,7 @@ export default function TabLayout() {
         options={{
           title: 'More',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'cube' : 'cube-outline'} color={color} />
+            <Icon name={focused ? 'cube' : 'cube-outline'} color={color} />
           ),
         }}
       />
