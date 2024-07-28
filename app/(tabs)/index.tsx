@@ -3,6 +3,7 @@ import { StyleSheet, SafeAreaView, View, useColorScheme } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
 import IconBorderedButton from '@/components/IconBorderedButton';
+import ChipsSelection from '@/components/ChipsSelection';
 
 export default function HomeScreen() {
   const primaryColor = useThemeColor({}, 'primary');
@@ -18,6 +19,9 @@ export default function HomeScreen() {
 
             }} />
           </View>
+          <ChipsSelection defaultSelection={0} style={{width: '100%', marginTop: 10}} elementTitles={['Fruit', 'Fast-Food', 'Vegatibles', 'Grocery', 'Fresh']} isLightElement={false} onItemSelected={(selectedIndex) => {
+
+          }}/>
         </View>  
       </View>
     </SafeAreaView>
