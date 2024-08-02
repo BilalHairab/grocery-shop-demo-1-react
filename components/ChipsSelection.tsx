@@ -13,8 +13,8 @@ type ChipsSelectionProps = {
 type Props = PropsWithChildren<ChipsSelectionProps>
 
 export default function ChipsSelection(props: Props) {
-    const primary = props.isLightElement ? individualColors['backgroundDark'] : individualColors['overflow']
-    const secondary = props.isLightElement ? individualColors['overflow'] : individualColors['backgroundDark']
+    const primary = props.isLightElement ? individualColors['backgroundDark'] : individualColors['backgroundLight']
+    const secondary = props.isLightElement ? individualColors['backgroundLight'] : individualColors['backgroundDark']
     const [selectedIndex, setSelectedIndex] = useState<number | undefined>(props.defaultSelection);
     return (
         <FlatList 

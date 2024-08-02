@@ -1,13 +1,16 @@
-import { StyleSheet, SafeAreaView, View, useColorScheme } from 'react-native';
+import { StyleSheet, SafeAreaView, View, useColorScheme, FlatList, Image } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
 import IconBorderedButton from '@/components/IconBorderedButton';
 import ChipsSelection from '@/components/ChipsSelection';
+import { useRef } from 'react';
+import GroceryItem from '@/components/GroceryItem';
 
 export default function HomeScreen() {
   const primaryColor = useThemeColor({}, 'primary');
   const secondBackgroundColor = useThemeColor({}, 'background');
+  const data = useRef(require('../../assets/products.json'))
 
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: secondBackgroundColor, flexDirection: 'column' }}>
@@ -19,9 +22,14 @@ export default function HomeScreen() {
 
             }} />
           </View>
-          <ChipsSelection defaultSelection={0} style={{width: '100%', marginTop: 10}} elementTitles={['Fruit', 'Vegan', 'Vegetable', 'Bakery', 'Diary', 'Meat']} isLightElement={false} onItemSelected={(selectedIndex) => {
+          <ChipsSelection defaultSelection={0} style={{width: '100%', minHeight: 60}} elementTitles={['Fruit', 'Vegan', 'Vegetable', 'Bakery', 'Diary', 'Meat']} isLightElement={false} onItemSelected={(selectedIndex) => {
 
           }}/>
+          <FlatList style={{marginVertical: 10}} data={data.current} numColumns={2} ItemSeparatorComponent={(_) => {
+            return <View style={{ width: 10, height: 10 }}/>
+          }} renderItem={({item}) => {
+            return <GroceryItem item={item}/>
+          }} />
         </View>  
       </View>
     </SafeAreaView>

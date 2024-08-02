@@ -8,7 +8,7 @@ const secondaryFocus = '#ed00b8';
 const unFocus = '#fff';
 const backgroundLight = '#F0F0F0';
 const backgroundDark = '#0f002e';
-const overflow = 'rgba(240, 240, 240, 0.7)';
+const overflow = 'rgba(240, 240, 240, 0.3)';
 
 export const Colors = {
   light: {
