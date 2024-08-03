@@ -4,12 +4,14 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
 import IconBorderedButton from '@/components/IconBorderedButton';
 import ChipsSelection from '@/components/ChipsSelection';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import GroceryItem from '@/components/GroceryItem';
 
 export default function HomeScreen() {
   const primaryColor = useThemeColor({}, 'primary');
   const secondBackgroundColor = useThemeColor({}, 'background');
+  const categories = useRef(['All', 'Fruit', 'Vegan', 'Vegetable', 'Dairy', 'Bakery', 'Meat'])
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0)
   const data = useRef(require('../../assets/products.json'))
 
   return (
@@ -22,13 +24,15 @@ export default function HomeScreen() {
 
             }} />
           </View>
-          <ChipsSelection defaultSelection={0} style={{width: '100%', minHeight: 60}} elementTitles={['Fruit', 'Vegan', 'Vegetable', 'Bakery', 'Diary', 'Meat']} isLightElement={false} onItemSelected={(selectedIndex) => {
-
+          <ChipsSelection defaultSelection={selectedCategoryIndex} style={{width: '100%', minHeight: 60}} elementTitles={categories.current} isLightElement={false} onItemSelected={(selectedIndex) => {
+            setSelectedCategoryIndex(selectedIndex)
           }}/>
-          <FlatList style={{marginVertical: 10}} data={data.current} numColumns={2} ItemSeparatorComponent={(_) => {
+          <FlatList style={{marginVertical: 10, height: '100%'}} data={data.current.filter((product) => categories.current[selectedCategoryIndex].toLowerCase() === 'all' ? true : product.type.toLowerCase() === categories.current[selectedCategoryIndex].toLowerCase())} numColumns={2} ItemSeparatorComponent={(_) => {
             return <View style={{ width: 10, height: 10 }}/>
-          }} renderItem={({item}) => {
-            return <GroceryItem item={item}/>
+          }} renderItem={({item, index}) => {
+            return <GroceryItem item={item} index={index} onPress={() => {
+
+            }}/>
           }} />
         </View>  
       </View>
