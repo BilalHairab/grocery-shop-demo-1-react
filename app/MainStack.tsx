@@ -1,8 +1,9 @@
+import { isAuthenticatedSelector } from '@/reducers/user/userSelectors';
 import { Stack } from 'expo-router';
 import { useSelector } from 'react-redux';
 
 export default function MainStack() {
-    const authenticated = useSelector((state) => state.authenticated);
+    const authenticated = useSelector(isAuthenticatedSelector);
     return (
         <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} redirect={!authenticated} />

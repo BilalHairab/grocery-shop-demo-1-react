@@ -4,10 +4,9 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { createStore } from 'redux';
-import * as UserReducer from '@/reducers/user/userReducer';
 import { Provider } from 'react-redux';
 import MainStack from './MainStack';
+import { store } from '@/reducers/store';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -27,7 +26,7 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
-  const store = createStore(UserReducer.default)
+  
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Provider store={store}>
