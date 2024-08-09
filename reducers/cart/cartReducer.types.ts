@@ -16,7 +16,7 @@ export type CartItem = {
 };
 
 export type CartState = {
-    items: Map<number, CartItemCounter>;
+    items: any;
 };
 
 export type CartAction = CartActionAdd | CartActionRemove | CartActionClear;

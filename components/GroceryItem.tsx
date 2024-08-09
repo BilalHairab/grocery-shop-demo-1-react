@@ -6,13 +6,13 @@ import TitleText from "./TitleText";
 import { AirbnbRating } from "react-native-ratings";
 import AccentText from "./AccentText";
 import SolidSquaredIcon from "./SolidSquaredIcon";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import cartActions from '@/reducers/cart/cartActions'
+import { cartItemSelector } from "@/reducers/cart/cartSelectors";
 
 type ItemProps = {
     item: any;
     index: number;
-    existInCart: boolean;
     onItemPress?: () => void,
     isLightButton?: boolean;
     style?: StyleProp<ViewStyle>;
@@ -21,7 +21,7 @@ type Props = PropsWithChildren<ItemProps>
 
 export default function GroceryItem(props: Props) {
     const dispatch = useDispatch();
-
+    const existInCart = useSelector(cartItemSelector(props.item.id))
     return (<TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPress} >
         <Image source={{ uri: props.item.filename }} style={{ width: '100%', height: 150, borderRadius: 5, opacity: 0.7 }} resizeMode='center' />
         <TitleText text={props.item.title} style={{ color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold', alignSelf: 'flex-start' }}></TitleText>
@@ -39,8 +39,8 @@ export default function GroceryItem(props: Props) {
                 <AccentText text={"AED " + props.item.price} />
             </View>
             <View>
-                <SolidSquaredIcon style={props.existInCart ? { backgroundColor: individualColors.primary } : {}} name={props.existInCart ? 'bag-remove' : 'bag-add'} size={20} isLightButton={true} onPress={() => {
-                    if (props.existInCart) {
+                <SolidSquaredIcon style={existInCart ? { backgroundColor: individualColors.primary } : {}} name={existInCart ? 'bag-remove' : 'bag-add'} size={20} isLightButton={true} onPress={() => {
+                    if (existInCart) {
                         dispatch(cartActions.removeItem(props.item));
                     } else {
                         dispatch(cartActions.addItem(props.item));

@@ -5,7 +5,6 @@ const initialState: AuthState = {
 };
 
 export default function reducer(state = initialState, action: AuthAction): AuthState {
-    console.log(`reducer ${JSON.stringify(action)}`)
     switch(action.type) {
         case "login": 
         return {
