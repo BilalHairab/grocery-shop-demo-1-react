@@ -3,20 +3,32 @@ import { SafeAreaView, View, useColorScheme, FlatList, StyleSheet } from 'react-
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
 import IconBorderedButton from '@/components/IconBorderedButton';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fullCartSelector } from '@/reducers/cart/cartSelectors';
 import CartItem from '@/components/CartItem';
 import TitleText from '@/components/TitleText';
+import RoundedButton from '@/components/RoundedButton';
+import AccentText from '@/components/AccentText';
+import { useCallback } from 'react';
+import { CartItemCounter } from '@/reducers/cart/cartReducer.types';
 
 export default function CartScreen() {
   const cartItems = useSelector(fullCartSelector);
   const primaryColor = useThemeColor({}, 'primary');
   const secondBackgroundColor = useThemeColor({}, 'background');
 
+  const calculateTotalAmount = useCallback(() => {
+    const items: CartItemCounter[] = Object.values(cartItems);
+    let total = 0;
+    for(const item of items) {
+      total += (item.count * item.item.price)
+    }
+    return total;
+  }, [cartItems]);
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: secondBackgroundColor, flexDirection: 'column' }}>
       <View style={{ backgroundColor: primaryColor, height: '100%' }}>
-        <View style={{ backgroundColor: secondBackgroundColor, height: '100%', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, padding: 10 }}>
+        <View style={{ backgroundColor: secondBackgroundColor, height: '100%', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, padding: 10, rowGap: 5 }}>
           <View style={{ flexDirection: 'row', paddingHorizontal: 5, justifyContent: 'space-between', alignItems: 'center' }}>
             <HeaderText text='Cart' />
             <IconBorderedButton size={35} name='search-outline' isLightButton={useColorScheme() !== 'light'} onPress={() => {
@@ -28,6 +40,11 @@ export default function CartScreen() {
           }} renderItem={({ item, index }) => {
             return <CartItem item={item.item}/>
           }} />
+          {Object.values(cartItems).length > 0 && <AccentText text={`Total: ${calculateTotalAmount().toFixed(2)} AED`} style={{textAlign: 'center'}} />}
+          {Object.values(cartItems).length > 0 && <RoundedButton style={{width: '100%', alignSelf: 'flex-end'}} title='Checkout' isLightButton={true} onPress={() => {
+
+          }}/>}
+
         </View>
       </View>
     </SafeAreaView>
