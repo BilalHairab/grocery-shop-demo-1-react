@@ -1,19 +1,22 @@
 import { individualColors } from "@/constants/Colors";
-import React, { PropsWithChildren } from "react";
-import { TouchableOpacity, Text, StyleProp, ViewStyle } from "react-native";
+import React, { PropsWithChildren, useRef } from "react";
+import { TouchableOpacity, StyleProp, ViewStyle } from "react-native";
 import { StyleSheet } from 'react-native';
+import TitleText from "./TitleText";
 
 type ButtonProps = {
     title: string;
     onPress: () => void,
+    disabled?: boolean,
     isLightButton?: boolean;
     style?: StyleProp<ViewStyle>;
 }
 type Props = PropsWithChildren<ButtonProps>
 
 export default function RoundedButton(props: Props) {
-    return (<TouchableOpacity style={[styles.button, props.isLightButton ? styles.lightButton : styles.darkButton, props.style]} onPress={props.onPress}>
-        <Text style={{color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold'}}>{props.title}</Text></TouchableOpacity>)
+    const enabled = useRef(!(props.disabled ?? false))
+    return (<TouchableOpacity style={[styles.button, props.isLightButton ? styles.lightButton : styles.darkButton, props.style]} disabled={props.disabled ?? false} onPress={props.onPress}>
+        {enabled.current && <TitleText style={{color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold'}} text={props.title}/>}</TouchableOpacity>)
 }
 
 const styles = StyleSheet.create({

@@ -33,7 +33,13 @@ export default function reducer(state = initialState, action: CartAction): CartS
                 return state;
             }
             if (record.count === 1) {
-                record = undefined;
+                delete state.items[action.payload.item.id];
+                return {
+                    ...state,
+                    items: {
+                        ...state.items,
+                    },
+                }
             } else {
                 record.count -= 1;
             }
