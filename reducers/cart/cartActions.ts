@@ -17,4 +17,12 @@ export default {
             }
         }
     },
+    setViewingItem: (item: CartItem): CartAction => {
+        return {
+            type: 'viewItem',
+            payload: {
+                item
+            }
+        }
+    },
 }

@@ -6,8 +6,9 @@ export default function MainStack() {
     const authenticated = useSelector(isAuthenticatedSelector);
     return (
         <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} redirect={!authenticated} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '' }} redirect={!authenticated} />
             <Stack.Screen name="(onboarding)" options={{ headerShown: false }} redirect={authenticated} />
+            <Stack.Screen name="(product)" options={{headerShown: false}}/>
             <Stack.Screen name="+not-found" />
         </Stack>
     );

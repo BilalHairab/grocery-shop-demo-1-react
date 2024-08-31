@@ -1,13 +1,8 @@
 import { individualColors } from "@/constants/Colors";
-import React, { PropsWithChildren, useRef, useState } from "react";
-import { TouchableOpacity, Text, StyleProp, ViewStyle, Image, View } from "react-native";
+import React, { PropsWithChildren, useRef } from "react";
+import { StyleProp, ViewStyle, View } from "react-native";
 import { StyleSheet } from 'react-native';
 import TitleText from "./TitleText";
-import AccentText from "./AccentText";
-import SolidSquaredIcon from "./SolidSquaredIcon";
-import { useDispatch, useSelector } from "react-redux";
-import cartActions from '@/reducers/cart/cartActions'
-import { cartItemSelector } from "@/reducers/cart/cartSelectors";
 import RoundedButton from "./RoundedButton";
 
 type QuantityCounterProps = {
@@ -24,12 +19,12 @@ type Props = PropsWithChildren<QuantityCounterProps>
 export default function QuantityCounter(props: Props) {
     const isHorizontal = useRef(props.horizontal);
     return (
-        <View style={[styles.mainItem, props.style, { flexDirection: isHorizontal.current ? 'row' : 'column' }]} >
-            <RoundedButton style={styles.button} title="+" disabled={props.maxAllowed !== undefined && (props.counter === props.maxAllowed)} isLightButton={false} onPress={() => {
+        <View style={[styles.mainItem, props.style, isHorizontal.current ? { flexDirection:  'row-reverse', columnGap: 10 } : {flexDirection: 'column', rowGap: 5}]} >
+            <RoundedButton style={[styles.button]} title="+" disabled={props.maxAllowed !== undefined && (props.counter === props.maxAllowed)} isLightButton={!props.isLightButton} onPress={() => {
                 props.requestToUpdateCB(+1);
             }} />
             <TitleText text={`${props.counter}`} style={{ alignSelf: 'center' }}/>
-            <RoundedButton style={styles.button} title="-" disabled={props.minAllowed !== undefined && (props.counter === props.minAllowed)} isLightButton={false} onPress={() => {
+            <RoundedButton style={[styles.button]} title="-" disabled={props.minAllowed !== undefined && (props.counter === props.minAllowed)} isLightButton={!props.isLightButton} onPress={() => {
                 props.requestToUpdateCB(-1);
             }} />
         </View>)
@@ -37,17 +32,15 @@ export default function QuantityCounter(props: Props) {
 
 const styles = StyleSheet.create({
     mainItem: {
-        flex: 1,
-        justifyContent: 'space-evenly',
         marginEnd: 5,
-        alignItems: 'center'
+        alignItems: 'center' 
     },
     button: {
         borderRadius: 100,
         alignItems: 'center',
-        paddingHorizontal: 5,
-        paddingVertical: 5,
-        backgroundColor: 'transparent'
+        padding: 0,
+        height: 35,
+        width: 35
     },
     lightButton: {
         backgroundColor: individualColors['backgroundLight']

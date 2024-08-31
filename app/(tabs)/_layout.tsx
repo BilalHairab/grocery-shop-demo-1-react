@@ -38,22 +38,22 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="order"
-        component={OrderScreen}
-        options={{
-          title: 'Order',
-          tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? 'list' : 'list-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="cart"
         component={CartScreen}
         options={{
           title: 'Cart',
           tabBarIcon: ({ color, focused }) => (
             <Icon name={focused ? 'cart' : 'cart-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="order"
+        component={OrderScreen}
+        options={{
+          title: 'Order',
+          tabBarIcon: ({ color, focused }) => (
+            <Icon name={focused ? 'list' : 'list-outline'} color={color} />
           ),
         }}
       />

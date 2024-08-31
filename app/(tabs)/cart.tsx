@@ -11,12 +11,14 @@ import RoundedButton from '@/components/RoundedButton';
 import AccentText from '@/components/AccentText';
 import { useCallback } from 'react';
 import { CartItemCounter } from '@/reducers/cart/cartReducer.types';
+import { router } from 'expo-router';
+import cartActions from '@/reducers/cart/cartActions';
 
 export default function CartScreen() {
   const cartItems = useSelector(fullCartSelector);
   const primaryColor = useThemeColor({}, 'primary');
   const secondBackgroundColor = useThemeColor({}, 'background');
-
+  const dispatch = useDispatch();
   const calculateTotalAmount = useCallback(() => {
     const items: CartItemCounter[] = Object.values(cartItems);
     let total = 0;
@@ -38,7 +40,10 @@ export default function CartScreen() {
           <FlatList ListEmptyComponent={<View style={{height: '100%', flex: 1, alignSelf: 'center', alignContent: 'center'}}><TitleText style={{textAlign: 'center'}} text={'Nothing in cart, go add items from Home tab.'} /></View>} keyExtractor={(item: any) => item.item.id} style={{ marginVertical: 10, height: '100%' }} data={Object.values(cartItems) ?? []} ItemSeparatorComponent={(_) => {
             return <View style={{ width: 10, height: 10 }} />
           }} renderItem={({ item, index }) => {
-            return <CartItem item={item.item}/>
+            return <CartItem item={item.item} onItemPressed={() => {
+              dispatch(cartActions.setViewingItem(item.item));
+              router.push('/(product)');
+            }}/>
           }} />
           {Object.values(cartItems).length > 0 && <AccentText text={`Total: ${calculateTotalAmount().toFixed(2)} AED`} style={{textAlign: 'center'}} />}
           {Object.values(cartItems).length > 0 && <RoundedButton style={{width: '100%', alignSelf: 'flex-end'}} title='Checkout' isLightButton={true} onPress={() => {

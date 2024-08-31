@@ -2,6 +2,7 @@ import { CartAction, CartItemCounter, CartState } from "./cartReducer.types";
 
 const initialState: CartState = {
     items: {},
+    viewingItem: undefined,
 };
 
 export default function reducer(state = initialState, action: CartAction): CartState {
@@ -29,7 +30,7 @@ export default function reducer(state = initialState, action: CartAction): CartS
         }
         case "remove": {
             let record = items[action.payload.item.id] as CartItemCounter | undefined;
-            if(!record) {
+            if (!record) {
                 return state;
             }
             if (record.count === 1) {
@@ -55,6 +56,11 @@ export default function reducer(state = initialState, action: CartAction): CartS
             return {
                 ...state,
                 items: {},
+            }
+        case "viewItem":
+            return {
+                ...state,
+                viewingItem: action.payload.item,
             }
         default: return state;
     }

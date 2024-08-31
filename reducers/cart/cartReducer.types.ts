@@ -17,9 +17,10 @@ export type CartItem = {
 
 export type CartState = {
     items: any;
+    viewingItem: CartItem | undefined;
 };
 
-export type CartAction = CartActionAdd | CartActionRemove | CartActionClear;
+export type CartAction = CartActionAdd | CartActionRemove | CartActionClear | CartActionViewItem;
 
 export type CartActionAdd = {
     type: "add";
@@ -38,5 +39,12 @@ export type CartActionRemove = {
 export type CartActionClear = {
     type: "clear";
     payload: {
+    }
+};
+
+export type CartActionViewItem = {
+    type: "viewItem";
+    payload: {
+        item: CartItem;
     }
 };

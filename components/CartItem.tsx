@@ -1,6 +1,6 @@
 import { individualColors } from "@/constants/Colors";
 import React, { PropsWithChildren } from "react";
-import { StyleProp, ViewStyle, Image, View } from "react-native";
+import { StyleProp, ViewStyle, Image, View, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
 import TitleText from "./TitleText";
 import AccentText from "./AccentText";
@@ -12,6 +12,7 @@ import QuantityCounter from "./QuantityCounter";
 type ItemProps = {
     item: any;
     isLightButton?: boolean;
+    onItemPressed?: () => void;
     style?: StyleProp<ViewStyle>;
 }
 type Props = PropsWithChildren<ItemProps>
@@ -23,7 +24,7 @@ export default function CartItem(props: Props) {
         return <View></View>;
     }
     return (
-        <View style={[styles.mainItem, props.style]} >
+        <TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPressed} >
             <View style={{ flexDirection: 'row', columnGap: 10, flex: 10 }}>
                 <Image source={{ uri: props.item.filename }} style={{ width: 80, height: 100, borderRadius: 5, opacity: 0.7 }} resizeMode='stretch' />
                 <View style={{ alignSelf: 'flex-start', flexDirection: 'column', height: '100%', paddingVertical: 10, justifyContent: 'space-between' }}>
@@ -38,7 +39,7 @@ export default function CartItem(props: Props) {
                     dispatch(cartActions.removeItem(itemInCart.item))
                 }
             } }/>
-        </View>)
+        </TouchableOpacity>)
 }
 
 const styles = StyleSheet.create({
