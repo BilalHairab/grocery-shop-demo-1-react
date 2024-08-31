@@ -11,6 +11,7 @@ import { AirbnbRating } from 'react-native-ratings';
 import DescriptionText from '@/components/DescriptionText';
 import RoundedButton from '@/components/RoundedButton';
 import cartActions from '@/reducers/cart/cartActions';
+import AccentText from '@/components/AccentText';
 
 export default function ProductDetailsScreen() {
   const primaryColor = useThemeColor({}, 'primary');
@@ -41,13 +42,18 @@ export default function ProductDetailsScreen() {
             }} />}
           </View>
           <View style={{ alignSelf: 'flex-start' }}>
+            <AccentText text={currentItem.price.toFixed(2) + " AED/ item"} />
+            {itemInCart?.count > 1 && <AccentText text={(currentItem.price * itemInCart?.count).toFixed(2) + " AED"} />}
+          </View>
+
+          <View style={{ alignSelf: 'flex-start' }}>
             <AirbnbRating
-              isDisabled={true}
-              showRating={false}
-              count={5}
-              defaultRating={currentItem.rating}
-              size={10}
-            />
+                isDisabled={true}
+                showRating={false}
+                count={5}
+                defaultRating={currentItem.rating}
+                size={10}
+              />
           </View>
 
           <View style={{ alignSelf: 'flex-start' }}>
