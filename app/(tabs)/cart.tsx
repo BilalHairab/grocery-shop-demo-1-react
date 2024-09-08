@@ -47,7 +47,7 @@ export default function CartScreen() {
           }} />
           {Object.values(cartItems).length > 0 && <AccentText text={`Total: ${calculateTotalAmount().toFixed(2)} AED`} style={{textAlign: 'center'}} />}
           {Object.values(cartItems).length > 0 && <RoundedButton style={{width: '100%', alignSelf: 'flex-end'}} title='Checkout' isLightButton={true} onPress={() => {
-
+              router.push('/checkout');
           }}/>}
 
         </View>
