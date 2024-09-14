@@ -9,6 +9,7 @@ export default function MainStack() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '' }} redirect={!authenticated} />
             <Stack.Screen name="(onboarding)" options={{ headerShown: false }} redirect={authenticated} />
             <Stack.Screen name="(product)" options={{headerShown: false}}/>
+            <Stack.Screen name="(order-summary)" options={{headerShown: false}}/>
             <Stack.Screen name="checkout" options={{headerShown: false}}/>
             <Stack.Screen name="+not-found" />
         </Stack>

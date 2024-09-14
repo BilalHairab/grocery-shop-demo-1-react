@@ -1,15 +1,19 @@
 import { useThemeColor } from '@/hooks/useThemeColor';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
-import { SafeAreaView, Image } from 'react-native';
+import { SafeAreaView, Image, useColorScheme, View } from 'react-native';
+import IconBorderedButton from '@/components/IconBorderedButton';
+import HeaderText from '@/components/HeaderText';
+import { router } from 'expo-router';
 
 export default function CheckoutScreen() {
+  const interval = useRef<NodeJS.Timeout | undefined>(undefined);
   const secondBackgroundColor = useThemeColor({}, 'background');
   const image = require('@/assets/images/motorcycle.png')
   const [index, setIndex] = useState(0);
-  const orderCordinates = [{ latitude: 37.79825, longitude: -122.4224, },
+  let orderCordinates = [{ latitude: 37.79825, longitude: -122.4224, },
   { "latitude": 37.79738, "longitude": -122.42208 },
   { "latitude": 37.79691, "longitude": -122.42199 },
   { "latitude": 37.79684, "longitude": -122.42253 },
@@ -31,23 +35,39 @@ export default function CheckoutScreen() {
   { "latitude": 37.78856, "longitude": -122.42898 },
   { "latitude": 37.78848, "longitude": -122.42965 },
   { "latitude": 37.78835, "longitude": -122.43068 },
-  { "latitude": 37.78814, "longitude": -122.43225 }
+  { "latitude": 37.78830, "longitude": -122.4323, }
   ];
   const destinationCordinates = { latitude: 37.78825, longitude: -122.4324, };
 
   useEffect(() => {
-    setInterval(() => {
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
       if(index >= orderCordinates.length - 1) {
 
       } else {
         setIndex((prev) => prev + 1);
       }
-    }, 3000);
-  }, []);
+    }, 2500);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+}, [index]);
+
   return (
     <SafeAreaView style={{ height: '100%', flexDirection: 'column', backgroundColor: secondBackgroundColor }}>
-      <MapView
+          <View style={{ flexDirection: 'row', paddingHorizontal: 5, columnGap: 10, alignItems: 'center', marginBottom: 10 }}>
+            <IconBorderedButton size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
+              router.back();
+            }} />
+
+            <HeaderText text='Order Tracking' />
+          </View>
+
+      {<MapView
         toolbarEnabled={true}
+        ref={ref => {
+          ref?.fitToSuppliedMarkers(['you', 'order'], {animated: true});
+        }}
         style={{ height: '60%' }}
         initialRegion={{
           latitude: 37.78825,
@@ -66,18 +86,20 @@ export default function CheckoutScreen() {
         />
         <Marker
           key={0}
+          identifier='you'
           coordinate={destinationCordinates}
           title={"YOU"}
           description={"Your delivery address"}
         />
         <Marker
           key={1}
+          identifier='order'
           coordinate={orderCordinates[index]}
           title={"Your Order"}
         >
           <Image source={image} style={{ width: 40, height: 40 }} />
         </Marker>
-      </MapView>
+      </MapView>}
     </SafeAreaView>
   );
 }
