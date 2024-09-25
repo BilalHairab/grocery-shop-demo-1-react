@@ -62,6 +62,7 @@ const RadioGroup = (props: Props) => {
         <View>
             {props.items.map((item) => {
                 return <CustomRadioButton
+                    key={item.key}
                     label={item.label}
                     selected={selectedValue.key === item.key}
                     onSelect={() => setSelectedValue(item)}

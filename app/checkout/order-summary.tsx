@@ -13,10 +13,12 @@ import { useNavigation, useRouter } from 'expo-router';
 import OrderSummaryItem from '@/components/OrderSummaryItem';
 import { individualColors } from '@/constants/Colors';
 import RadioGroup, { RadioGroupItem } from '@/components/RadioGroup';
+import usePaymentHook from '@/hooks/usePaymentHook';
 
 export default function OrderSummaryScreen() {
-  const deliveryOptions = useRef([{key: 'no', label: "Pickup from Store"}, {key: 'normal', label: "Normal (1 days, +5 AED)"}, {key: 'express', label: "Instant (+10 AED)"}])
-  const paymentOptions = useRef([{key: 'cod', label: "Cash On Delivery (+5 AED)"}, {key: 'credit_debit', label: "Credit/Debit Card"}])
+  const deliveryOptions = useRef([{ key: 'no', label: "Pickup from Store" }, { key: 'normal', label: "Normal (1 days, +5 AED)" }, { key: 'express', label: "Instant (+10 AED)" }])
+  const paymentOptions = useRef([{ key: 'cod', label: "Cash On Delivery (+5 AED)" }, { key: 'credit_debit', label: "Credit/Debit Card" }])
+  const paymentHook = usePaymentHook();
   const [deliveryFees, setDeliveryFees] = useState(0)
   const [paymentFees, setPaymentFees] = useState(0)
   const router = useRouter();
@@ -45,7 +47,7 @@ export default function OrderSummaryScreen() {
 
             <HeaderText text='Order Summary' />
           </View>
-          <TitleText text='Items' style={{paddingStart: 10, paddingTop: 15, marginBottom: 10}}/>
+          <TitleText text='Items' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
           <View style={{ borderRadius: 20, backgroundColor: individualColors['overflow'] }}>
             <FlatList
               keyExtractor={(item: any) => item.item.id} style={{ marginVertical: 10, height: 'auto', }} data={Object.values(cartItems) ?? []} ItemSeparatorComponent={(_) => {
@@ -55,39 +57,41 @@ export default function OrderSummaryScreen() {
               }} />
 
           </View>
-          <TitleText text='Delivery' style={{paddingStart: 10, paddingTop: 15, marginBottom: 10}}/>
+          <TitleText text='Delivery' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
           <View style={{ borderRadius: 20, backgroundColor: individualColors['overflow'] }}>
             <View style={{ marginVertical: 10, marginHorizontal: 8 }}>
-            <RadioGroup items={deliveryOptions.current} 
-            onItemSelected={(item: RadioGroupItem) => {
-              if(item.key === 'no') {
-                setDeliveryFees(0)
-              } else if(item.key === 'normal') {
-                setDeliveryFees(5)
-              } else if(item.key === 'express') {
-                setDeliveryFees(10)
-              }
-            }} />
+              <RadioGroup items={deliveryOptions.current}
+                onItemSelected={(item: RadioGroupItem) => {
+                  if (item.key === 'no') {
+                    setDeliveryFees(0)
+                  } else if (item.key === 'normal') {
+                    setDeliveryFees(5)
+                  } else if (item.key === 'express') {
+                    setDeliveryFees(10)
+                  }
+                }} />
             </View>
-            </View>
+          </View>
 
 
-            <TitleText text='Payment' style={{paddingStart: 10, paddingTop: 15, marginBottom: 10}}/>
+          <TitleText text='Payment' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
           <View style={{ borderRadius: 20, backgroundColor: individualColors['overflow'] }}>
             <View style={{ marginVertical: 10, marginHorizontal: 8 }}>
-            <RadioGroup items={paymentOptions.current} 
-            onItemSelected={(item: RadioGroupItem) => {
-              if(item.key === 'cod') {
-                setPaymentFees(5)
-              } else if(item.key === 'credit_debit') {
-                setPaymentFees(0)
-              }
-            }} />
+              <RadioGroup items={paymentOptions.current}
+                onItemSelected={(item: RadioGroupItem) => {
+                  if (item.key === 'cod') {
+                    setPaymentFees(5)
+                  } else if (item.key === 'credit_debit') {
+                    setPaymentFees(0)
+                  }
+                }} />
             </View>
 
           </View>
           {Object.values(cartItems).length > 0 && <RoundedButton style={{ width: '100%', alignSelf: 'flex-end', marginTop: 10 }} title={`Finalize (${calculateTotalAmount().toFixed(2)} AED)`} isLightButton={true} onPress={() => {
-            navigation.navigate({name: 'tracking'});
+            paymentHook.cardPay(Number(calculateTotalAmount().toFixed(2)), () => {
+            navigation.navigate({ name: 'tracking' });
+            });
           }} />}
 
         </ScrollView>
