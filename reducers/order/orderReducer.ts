@@ -13,7 +13,8 @@ export default function reducer(state = initialState, action: OrderAction): Orde
                 ...state,
                 activeOrder: {
                     state: OrderState.INITIALIZED,
-                    cart: action.payload.cartItems
+                    cart: action.payload.cartItems,
+                    date: Date.now()
                 }
             }
         }

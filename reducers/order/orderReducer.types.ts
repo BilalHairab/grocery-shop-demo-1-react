@@ -37,6 +37,7 @@ export enum OrderState {
 export type OrderItem = {
     state: OrderState;
     cart: CartItemCounter[];
+    date: number;
     payment?: PaymentOption;
     delivery?: DeliveryOption;
 };
