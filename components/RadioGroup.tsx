@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
 });
 export type RadioGroupItem = {
-    key: string, label: string
+    key: string, label: string, value: any
 };
 
 type RadioGroupProps = {

@@ -2,7 +2,6 @@ import { SafeAreaView, View, useColorScheme, FlatList, StyleSheet } from 'react-
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
-import IconBorderedButton from '@/components/IconBorderedButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { fullCartSelector } from '@/reducers/cart/cartSelectors';
 import CartItem from '@/components/CartItem';
@@ -13,8 +12,10 @@ import { useCallback } from 'react';
 import { CartItemCounter } from '@/reducers/cart/cartReducer.types';
 import { router } from 'expo-router';
 import cartActions from '@/reducers/cart/cartActions';
+import useCurrentOrder from '@/hooks/useCurrentOrder';
 
 export default function CartScreen() {
+  const order = useCurrentOrder();
   const cartItems = useSelector(fullCartSelector);
   const primaryColor = useThemeColor({}, 'primary');
   const secondBackgroundColor = useThemeColor({}, 'background');
@@ -44,6 +45,7 @@ export default function CartScreen() {
           }} />
           {Object.values(cartItems).length > 0 && <AccentText text={`Total: ${calculateTotalAmount().toFixed(2)} AED`} style={{textAlign: 'center'}} />}
           {Object.values(cartItems).length > 0 && <RoundedButton style={{width: '100%', alignSelf: 'flex-end'}} title='Checkout' isLightButton={true} onPress={() => {
+              order.startOrder(Object.values(cartItems));
               router.push('/checkout');
           }}/>}
 

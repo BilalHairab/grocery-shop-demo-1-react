@@ -20,15 +20,15 @@ import {
       setPaymentLoading(loading);
     }, [loading]);
   
-    const onSuccess = (message: string, onSuccessToScreen?: () => void) => {
+    const onSuccess = (message: string, onSuccessToScreen?: (string: string) => void) => {
         setPaymentLoading(false);
         alert(message)
-        onSuccessToScreen?.();
+        onSuccessToScreen?.(message);
     };
   
-    const showErrorMessage = (message: string, amount: number) => {
+    const onError = (message: string, onErrorScreen?: (string: string) => void) => {
       setPaymentLoading(false);
-      alert(message)
+      onErrorScreen?.(message);
     };
   
     const fetchPaymentIntentClientSecret = async ({ amount, gateway }: {amount: number, gateway: string}) => {
@@ -160,7 +160,7 @@ import {
       }
     };
   
-    const cardPay = async ( amount: number, suc: () => void) => {
+    const cardPay = async ( amount: number, suc: (message: string) => void, err: (message: string) => void) => {
       if (paymentLoading) return;
       setPaymentLoading(true);
       const clientSecret = await fetchPaymentIntentClientSecret({ amount, gateway: 'pm_card_visa' });
@@ -174,12 +174,10 @@ import {
         const result = await presentPaymentSheet();
         console.log(`paymentOption ${JSON.stringify(result)}`)
   
-        const billingDetails: BillingDetails = {
-          name: 'Test User'
-        };
         const { error } = await confirmPaymentSheetPayment();
         if (error) {
             console.warn(`error ${JSON.stringify(error)}`)
+            onError(error?.localizedMessage || '' + amount, err)
           alert(error?.localizedMessage || '' + amount);
         } else {
           onSuccess(`Payment of AED ${amount} is successful! `, suc)
