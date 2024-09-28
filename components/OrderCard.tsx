@@ -61,7 +61,7 @@ export default function OrderCard(props: Props) {
 
     return (
         <TouchableOpacity style={[styles.mainItem, props.style]} >
-            <View style={{ flexDirection: 'column', rowGap: 20 }}>
+            <View style={{ flexDirection: 'column', rowGap: 10 }}>
                 <View style={{ flexDirection: 'row', width:'100%', columnGap: 10, justifyContent: 'space-between' }}>
                     <TitleText text={`${props.item.cart.length} Items`} />
                     <AccentText text={`${calculateTotalAmount().toFixed(2)} AED`} />

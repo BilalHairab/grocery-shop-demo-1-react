@@ -23,7 +23,7 @@ export default function OrderScreen() {
     } else if (selectedCategoryIndex === 1) {
       setSelectedOrders(orders.filter((item) => item.state === OrderState.DELIVERED));
     } else if (selectedCategoryIndex === 2) {
-      setSelectedOrders(orders.filter((item) => item.state < OrderState.DELIVERED));
+      setSelectedOrders(orders.filter((item) => item.state < OrderState.DELIVERED || item.state === OrderState.FINISHED));
     }
   }, [selectedCategoryIndex]);
 

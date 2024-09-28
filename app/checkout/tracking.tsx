@@ -3,8 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
-import { SafeAreaView, Image, useColorScheme, View } from 'react-native';
-import IconBorderedButton from '@/components/IconBorderedButton';
+import { SafeAreaView, Image, View } from 'react-native';
 import HeaderText from '@/components/HeaderText';
 import { router } from 'expo-router';
 import useCurrentOrder from '@/hooks/useCurrentOrder';

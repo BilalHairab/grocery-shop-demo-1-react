@@ -32,6 +32,7 @@ export enum OrderState {
     PAID,
     IN_DELIVERY,
     DELIVERED,
+    FINISHED,
 }
 
 export type OrderItem = {

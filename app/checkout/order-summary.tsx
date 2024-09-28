@@ -29,7 +29,7 @@ export default function OrderSummaryScreen() {
       order.startDelivery()
     } else if (order.activeOrder?.state === OrderState.IN_DELIVERY) {
       navigation.navigate({ name: 'tracking' });
-    } else if(order.activeOrder?.state === OrderState.DELIVERED) {
+    } else if(order.activeOrder?.state === OrderState.DELIVERED || order.activeOrder?.state === OrderState.FINISHED) {
       navigation.navigate({ name: 'done' });
     }
   }, [order.activeOrder?.state])

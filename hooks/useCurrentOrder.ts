@@ -47,7 +47,8 @@ const useCurrentOrder = () => {
     const pay = () => {
         dispatch(cartActions.clearCart())
         if(activeOrder?.delivery?.key === "no") {
-            dispatch(orderActions.updateActiveOrderState(OrderState.DELIVERED))
+            dispatch(orderActions.updateActiveOrderState(OrderState.FINISHED))
+            dispatch(orderActions.finishOrder())
             return
         }
         if(activeOrder?.payment?.key === "cod") {
