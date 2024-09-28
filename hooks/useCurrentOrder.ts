@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import orderActions from '@/reducers/order/orderActions';
 import usePaymentHook from './usePaymentHook';
 import { CartItemCounter } from '@/reducers/cart/cartReducer.types';
+import cartActions from '@/reducers/cart/cartActions';
 
 const useCurrentOrder = () => {
     const paymentHook = usePaymentHook();
@@ -31,6 +32,7 @@ const useCurrentOrder = () => {
     }, [activeOrder]);
     
     const startOrder = (items: CartItemCounter[]) => {
+        console.log(`start ${JSON.stringify(items)}`)
         dispatch(orderActions.initActiveOrder(items))
     }
 
@@ -43,11 +45,26 @@ const useCurrentOrder = () => {
     }
 
     const pay = () => {
+        dispatch(cartActions.clearCart())
+        if(activeOrder?.delivery?.key === "no") {
+            dispatch(orderActions.updateActiveOrderState(OrderState.DELIVERED))
+            return
+        }
+        if(activeOrder?.payment?.key === "cod") {
+            dispatch(orderActions.updateActiveOrderState(OrderState.IN_DELIVERY))
+            return
+        }
         paymentHook.cardPay(Number(calculateTotalAmount().toFixed(2)), (message: string) => {
             dispatch(orderActions.updateActiveOrderState(OrderState.PAID))
         }, (errorMessage: string) => {
             setError(errorMessage);
         });
+    }
+
+    const notifyDelivered = () => {
+        dispatch(orderActions.updateActiveOrderState(OrderState.DELIVERED))
+        dispatch(orderActions.finishOrder())
+        dispatch(cartActions.clearCart())
     }
 
     const setPayment = (paymentKey?: string) => {
@@ -74,6 +91,7 @@ const useCurrentOrder = () => {
         activeOrder,
         startOrder,
         startDelivery,
+        notifyDelivered,
         setDelivery,
         setPayment,
         pay,

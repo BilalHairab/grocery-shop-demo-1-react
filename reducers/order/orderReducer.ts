@@ -53,6 +53,16 @@ export default function reducer(state = initialState, action: OrderAction): Orde
                 }
             }
         }
+        case "finishOrder": {
+            if(state.activeOrder === undefined) {
+                return state
+            }
+            const activeOrder = state.activeOrder;
+            return {
+                orders: [...state.orders, activeOrder],
+                activeOrder: undefined
+            }
+        }
         default: return state;
     }
 }

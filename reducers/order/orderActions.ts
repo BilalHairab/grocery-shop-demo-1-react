@@ -1,5 +1,5 @@
 import { CartItemCounter } from "../cart/cartReducer.types"
-import { DeliveryOption, OrderInitAction, OrderSetDeliveryAction, OrderSetPaymentAction, OrderSetStateAction, OrderState, PaymentOption } from "./orderReducer.types"
+import { DeliveryOption, OrderFinishAction, OrderInitAction, OrderSetDeliveryAction, OrderSetPaymentAction, OrderSetStateAction, OrderState, PaymentOption } from "./orderReducer.types"
 
 export default {
     initActiveOrder: (items: CartItemCounter[]): OrderInitAction => {
@@ -31,6 +31,13 @@ export default {
             type: 'setState',
             payload: {
                 state
+            }
+        }
+    },
+    finishOrder: (): OrderFinishAction => {
+        return {
+            type: 'finishOrder',
+            payload: {
             }
         }
     },

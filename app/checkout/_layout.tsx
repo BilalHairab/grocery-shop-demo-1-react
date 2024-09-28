@@ -5,6 +5,7 @@ export default function OnBoardingLayout() {
         <Stack>
             <Stack.Screen name="order-summary" options={{ headerShown: false }}/>
             <Stack.Screen name="tracking" options={{ headerShown: false }}/>
+            <Stack.Screen name="done" options={{headerShown: false}}/>
         </Stack>
     )
 }

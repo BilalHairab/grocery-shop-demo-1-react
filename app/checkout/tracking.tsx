@@ -7,11 +7,16 @@ import { SafeAreaView, Image, useColorScheme, View } from 'react-native';
 import IconBorderedButton from '@/components/IconBorderedButton';
 import HeaderText from '@/components/HeaderText';
 import { router } from 'expo-router';
+import useCurrentOrder from '@/hooks/useCurrentOrder';
+import { OrderState } from '@/reducers/order/orderReducer.types';
+import RoundedButton from '@/components/RoundedButton';
 
 export default function CheckoutScreen() {
-  const interval = useRef<NodeJS.Timeout | undefined>(undefined);
   const secondBackgroundColor = useThemeColor({}, 'background');
-  const image = require('@/assets/images/motorcycle.png')
+  const order = useCurrentOrder();
+  const [done, setIsDone] = useState(false);
+  const motorcycleImage = require('@/assets/images/motorcycle.png')
+  const shopImage = require('@/assets/images/shop.png')
   const [index, setIndex] = useState(0);
   let orderCordinates = [{ latitude: 37.79825, longitude: -122.4224, },
   { "latitude": 37.79738, "longitude": -122.42208 },
@@ -40,10 +45,16 @@ export default function CheckoutScreen() {
   const destinationCordinates = { latitude: 37.78825, longitude: -122.4324, };
 
   useEffect(() => {
+    if (order.activeOrder?.state === OrderState.DELIVERED) {
+      setIsDone(true)
+    }
+  }, [order.activeOrder?.state]);
+
+  useEffect(() => {
     //Implementing the setInterval method
     const interval = setInterval(() => {
-      if(index >= orderCordinates.length - 1) {
-
+      if (index >= orderCordinates.length - 1) {
+        order.notifyDelivered()
       } else {
         setIndex((prev) => prev + 1);
       }
@@ -51,55 +62,69 @@ export default function CheckoutScreen() {
 
     //Clearing the interval
     return () => clearInterval(interval);
-}, [index]);
+  }, [index]);
 
   return (
-    <SafeAreaView style={{ height: '100%', flexDirection: 'column', backgroundColor: secondBackgroundColor }}>
-          <View style={{ flexDirection: 'row', paddingHorizontal: 5, columnGap: 10, alignItems: 'center', marginBottom: 10 }}>
-            <IconBorderedButton size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
-              router.back();
-            }} />
+    <SafeAreaView style={{ backgroundColor: secondBackgroundColor, height: '100%' }}>
+      <View style={{ height: '100%', marginHorizontal: 10, flex: 1, flexDirection: 'column', }}>
 
-            <HeaderText text='Order Tracking' />
-          </View>
+        <View style={{ flexDirection: 'row', paddingHorizontal: 5, columnGap: 10, alignItems: 'center', marginBottom: 20, marginTop: 10 }}>
+          <HeaderText text='Order Tracking' />
+        </View>
 
-      {<MapView
-        toolbarEnabled={true}
-        ref={ref => {
-          ref?.fitToSuppliedMarkers(['you', 'order'], {animated: true});
-        }}
-        style={{ height: '60%' }}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0022,
-          longitudeDelta: 0.0021,
+        <MapView
+          toolbarEnabled={true}
+          ref={ref => {
+            ref?.fitToSuppliedMarkers(['you', 'order'], { animated: true });
+          }}
+          style={{ height: '60%' }}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0022,
+            longitudeDelta: 0.0021,
 
-        }}
-      >
-        <MapViewDirections
-          origin={orderCordinates[0]}
-          destination={destinationCordinates}
-          apikey={"AIzaSyCisiNCSjU18_FQ1poeryAyc2axS2YDa6E"} // insert your API Key here
-          strokeWidth={4}
-          strokeColor="hotpink"
-        />
-        <Marker
-          key={0}
-          identifier='you'
-          coordinate={destinationCordinates}
-          title={"YOU"}
-          description={"Your delivery address"}
-        />
-        <Marker
-          key={1}
-          identifier='order'
-          coordinate={orderCordinates[index]}
-          title={"Your Order"}
+          }}
         >
-          <Image source={image} style={{ width: 40, height: 40 }} />
-        </Marker>
-      </MapView>}
+          <MapViewDirections
+            origin={orderCordinates[0]}
+            destination={destinationCordinates}
+            apikey={"AIzaSyCisiNCSjU18_FQ1poeryAyc2axS2YDa6E"} // insert your API Key here
+            strokeWidth={4}
+            strokeColor="blue"
+          />
+          <Marker
+            key={0}
+            identifier='you'
+            coordinate={destinationCordinates}
+            title={"YOU"}
+            description={"Your delivery address"}
+          />
+          <Marker
+            key={1}
+            identifier='order'
+            coordinate={orderCordinates[index]}
+            title={"Your Order"}
+          >
+            <Image source={motorcycleImage} style={{ width: 40, height: 40 }} />
+          </Marker>
+          <Marker
+            key={2}
+            identifier='Shop'
+            coordinate={orderCordinates[0]}
+            title={"Shop"}
+          >
+            <Image source={shopImage} style={{ width: 40, height: 40 }} />
+          </Marker>
+        </MapView>
+        <View style={{ alignSelf: 'flex-end', width: '100%' }}>
+          {done ? <RoundedButton style={{ marginTop: 40 }} title={'Finish'} isLightButton={true} onPress={() => {
+            router.replace('done');
+          }} /> : <RoundedButton style={{ marginTop: 40 }} title={'Ok, I\'ll be waiting'} isLightButton={true} onPress={() => {
+            router.replace('../(tabs)');
+          }} />}
+        </View>
+      </View>
     </SafeAreaView>
   );
 }

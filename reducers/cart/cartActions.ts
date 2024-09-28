@@ -1,7 +1,7 @@
-import { CartAction, CartItem } from "./cartReducer.types";
+import { CartActionAdd, CartActionClear, CartActionRemove, CartActionViewItem, CartItem } from "./cartReducer.types";
 
 export default {
-    addItem: (item: CartItem): CartAction => {
+    addItem: (item: CartItem): CartActionAdd => {
         return {
             type: 'add',
             payload: {
@@ -9,7 +9,7 @@ export default {
             }
         }
     },
-    removeItem: (item: CartItem): CartAction => {
+    removeItem: (item: CartItem): CartActionRemove => {
         return {
             type: 'remove',
             payload: {
@@ -17,11 +17,18 @@ export default {
             }
         }
     },
-    setViewingItem: (item: CartItem): CartAction => {
+    setViewingItem: (item: CartItem): CartActionViewItem => {
         return {
             type: 'viewItem',
             payload: {
                 item
+            }
+        }
+    },
+    clearCart: (): CartActionClear => {
+        return {
+            type: 'clear',
+            payload: {
             }
         }
     },

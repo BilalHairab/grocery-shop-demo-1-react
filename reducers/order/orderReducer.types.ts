@@ -41,7 +41,7 @@ export type OrderItem = {
     delivery?: DeliveryOption;
 };
 
-export type OrderAction = OrderInitAction | OrderSetPaymentAction | OrderSetDeliveryAction | OrderSetStateAction
+export type OrderAction = OrderInitAction | OrderSetPaymentAction | OrderSetDeliveryAction | OrderSetStateAction | OrderFinishAction
 
 
 export type OrderInitAction = {
@@ -68,5 +68,11 @@ export type OrderSetStateAction = {
     type: "setState",
     payload: {
         state: OrderState;
+    }
+}
+
+export type OrderFinishAction = {
+    type: "finishOrder",
+    payload: {
     }
 }

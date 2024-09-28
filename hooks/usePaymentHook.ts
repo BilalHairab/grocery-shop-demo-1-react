@@ -178,7 +178,6 @@ import {
         if (error) {
             console.warn(`error ${JSON.stringify(error)}`)
             onError(error?.localizedMessage || '' + amount, err)
-          alert(error?.localizedMessage || '' + amount);
         } else {
           onSuccess(`Payment of AED ${amount} is successful! `, suc)
         }
