@@ -8,7 +8,9 @@ import AccentText from "./AccentText";
 import SolidSquaredIcon from "./SolidSquaredIcon";
 import { useDispatch, useSelector } from "react-redux";
 import cartActions from '@/reducers/cart/cartActions'
-import { cartItemSelector } from "@/reducers/cart/cartSelectors";
+import { cartItemSelector, fullCartSelector } from "@/reducers/cart/cartSelectors";
+import QuantityCounter from "./QuantityCounter";
+import RoundedButton from "./RoundedButton";
 
 type ItemProps = {
     item: any;
@@ -22,8 +24,10 @@ type Props = PropsWithChildren<ItemProps>
 export default function GroceryItem(props: Props) {
     const dispatch = useDispatch();
     const existInCart = useSelector(cartItemSelector(props.item.id))
+    const itemInCart = useSelector(fullCartSelector)[existInCart?.id ?? -1];
+
     return (<TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPress} >
-        <Image source={{ uri: props.item.filename }} style={{ width: '100%', height: 150, borderRadius: 5, opacity: 0.7 }} resizeMode='center' />
+        <Image source={{ uri: props.item.filename }} style={{ width: '100%', height: 150, borderRadius: 5, opacity: 0.7 }} resizeMode='cover' />
         <TitleText text={props.item.title} style={{ color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold', alignSelf: 'flex-start' }}></TitleText>
         <View style={{ alignSelf: 'flex-start' }}>
             <AirbnbRating
@@ -38,16 +42,22 @@ export default function GroceryItem(props: Props) {
             <View>
                 <AccentText text={"AED " + props.item.price} />
             </View>
-            <View>
-                <SolidSquaredIcon style={existInCart ? { backgroundColor: individualColors.primary } : {}} name={existInCart ? 'bag-remove' : 'bag-add'} size={20} isLightButton={true} onPress={() => {
+        </View>
+        <View style={{height: '10%', width: '100%', flex: 1}}>
+                {existInCart ? <QuantityCounter style={{ width: '100%', justifyContent: 'space-between', height: 40 }} counter={existInCart?.count ?? 0} horizontal={true} requestToUpdateCB={(quantity: number) => {
+                if (quantity > 0) {
+                    dispatch(cartActions.addItem(props.item));
+                  } else {
+                    dispatch(cartActions.removeItem(props.item));
+                  }
+            }} /> : <RoundedButton isLarge={false} style={[existInCart ? { backgroundColor: individualColors.primary } : {}, {height: 40}]} title={'Add to cart'} isLightButton={true} onPress={() => {
                     if (existInCart) {
                         dispatch(cartActions.removeItem(props.item));
                     } else {
                         dispatch(cartActions.addItem(props.item));
                     }
-                }} />
+                }} />}
             </View>
-        </View>
     </TouchableOpacity>)
 }
 

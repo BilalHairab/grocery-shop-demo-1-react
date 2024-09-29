@@ -11,5 +11,5 @@ type Props = PropsWithChildren<AccentTextProps>
 
 export default function AccentText(props: Props) {
     return (
-        <Text style={[{fontSize: 18, color: individualColors['secondaryFocus']}, props.style]}>{props.text}</Text>)
+        <Text style={[{fontSize: 18, color: individualColors['secondaryFocus'], fontWeight: 'bold'}, props.style]}>{props.text}</Text>)
 }

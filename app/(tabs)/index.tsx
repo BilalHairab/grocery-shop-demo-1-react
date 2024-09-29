@@ -31,7 +31,7 @@ export default function HomeScreen() {
           <ChipsSelection defaultSelection={selectedCategoryIndex} style={{ width: '100%', minHeight: 60 }} elementTitles={categories.current} isLightElement={false} onItemSelected={(selectedIndex) => {
             setSelectedCategoryIndex(selectedIndex)
           }} />
-          <FlatList keyExtractor={(item) => item.id} style={{ marginVertical: 10, height: '100%' }} data={data.current.filter((product) => categories.current[selectedCategoryIndex].toLowerCase() === 'all' ? true : product.type.toLowerCase() === categories.current[selectedCategoryIndex].toLowerCase())} numColumns={2} ItemSeparatorComponent={(_) => {
+          <FlatList keyExtractor={(item) => item.id} style={{ marginVertical: 10, height: '100%' }} data={data.current.filter((product) => categories.current[selectedCategoryIndex].toLowerCase() === 'all' ? true : product.type.toLowerCase() === categories.current[selectedCategoryIndex].toLowerCase())} ItemSeparatorComponent={(_) => {
             return <View style={{ width: 10, height: 10 }} />
           }} renderItem={({ item, index }) => {
             return <GroceryItem item={item} index={index} onItemPress={() => {
