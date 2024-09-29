@@ -8,7 +8,8 @@ import { Provider } from 'react-redux';
 import MainStack from './MainStack';
 import { store } from '@/reducers/store';
 import { StripeProvider } from '@stripe/stripe-react-native';
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();//Ignore all log notifications
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 

@@ -1,4 +1,4 @@
-import { SafeAreaView, View, FlatList, StyleSheet } from 'react-native';
+import { SafeAreaView, View, FlatList } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
@@ -38,7 +38,7 @@ export default function OrderScreen() {
             setSelectedCategoryIndex(selectedIndex)
           }} />
 
-          <FlatList ListEmptyComponent={<View style={{height: '100%', flex: 1, alignSelf: 'center', alignContent: 'center'}}><TitleText style={{textAlign: 'center'}} text={'No previous orders.'} /></View>} keyExtractor={(item: OrderItem) => item.date + ""} style={{ marginVertical: 10, height: '100%' }} data={selectedOrders ?? []} ItemSeparatorComponent={(_) => {
+          <FlatList ListEmptyComponent={<View style={{height: '100%', flex: 1, alignSelf: 'center', alignContent: 'center'}}><TitleText style={{textAlign: 'center'}} text={'No previous orders.'} /></View>} keyExtractor={(item: OrderItem) => item.date + ""} style={{ marginVertical: 10, height: '100%' }} data={selectedOrders.reverse() ?? []} ItemSeparatorComponent={(_) => {
             return <View style={{ width: 10, height: 10 }} />
           }} renderItem={({ item, index }) => {
             return <OrderCard item={item} />
@@ -49,16 +49,3 @@ export default function OrderScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});

@@ -1,4 +1,4 @@
-import { SafeAreaView, View, useColorScheme, FlatList, StyleSheet } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';

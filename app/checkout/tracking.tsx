@@ -120,6 +120,7 @@ export default function CheckoutScreen() {
           {done ? <RoundedButton style={{ marginTop: 40 }} title={'Finish'} isLightButton={true} onPress={() => {
             router.replace('done');
           }} /> : <RoundedButton style={{ marginTop: 40 }} title={'Ok, I\'ll be waiting'} isLightButton={true} onPress={() => {
+            order.notifyFinished()
             router.replace('../(tabs)');
           }} />}
         </View>

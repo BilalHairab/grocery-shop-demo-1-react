@@ -32,7 +32,6 @@ const useCurrentOrder = () => {
     }, [activeOrder]);
     
     const startOrder = (items: CartItemCounter[]) => {
-        console.log(`start ${JSON.stringify(items)}`)
         dispatch(orderActions.initActiveOrder(items))
     }
 
@@ -45,17 +44,19 @@ const useCurrentOrder = () => {
     }
 
     const pay = () => {
-        dispatch(cartActions.clearCart())
         if(activeOrder?.delivery?.key === "no") {
             dispatch(orderActions.updateActiveOrderState(OrderState.FINISHED))
-            dispatch(orderActions.finishOrder())
+            notifyFinished()
+            dispatch(cartActions.clearCart())
             return
         }
         if(activeOrder?.payment?.key === "cod") {
             dispatch(orderActions.updateActiveOrderState(OrderState.IN_DELIVERY))
+            dispatch(cartActions.clearCart())
             return
         }
         paymentHook.cardPay(Number(calculateTotalAmount().toFixed(2)), (message: string) => {
+            dispatch(cartActions.clearCart())
             dispatch(orderActions.updateActiveOrderState(OrderState.PAID))
         }, (errorMessage: string) => {
             setError(errorMessage);
@@ -64,10 +65,13 @@ const useCurrentOrder = () => {
 
     const notifyDelivered = () => {
         dispatch(orderActions.updateActiveOrderState(OrderState.DELIVERED))
-        dispatch(orderActions.finishOrder())
+        notifyFinished()
         dispatch(cartActions.clearCart())
     }
 
+    const notifyFinished = () => {
+        dispatch(orderActions.finishOrder())
+    }
     const setPayment = (paymentKey?: string) => {
         const payment = availablePaymentMethods.find((item: PaymentOption) => item.key === paymentKey);
         dispatch(orderActions.setOrderPayment(payment));
@@ -93,6 +97,7 @@ const useCurrentOrder = () => {
         startOrder,
         startDelivery,
         notifyDelivered,
+        notifyFinished,
         setDelivery,
         setPayment,
         pay,

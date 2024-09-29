@@ -31,6 +31,7 @@ export default function OrderSummaryScreen() {
       navigation.navigate({ name: 'tracking' });
     } else if(order.activeOrder?.state === OrderState.DELIVERED || order.activeOrder?.state === OrderState.FINISHED) {
       navigation.navigate({ name: 'done' });
+      order.notifyFinished()
     }
   }, [order.activeOrder?.state])
 
