@@ -22,16 +22,12 @@ export default function OrderSummaryScreen() {
   const primaryColor = useThemeColor({}, 'primary');
   const secondBackgroundColor = useThemeColor({}, 'background');
   useEffect(() => {
-    if(order.activeOrder?.state === undefined) {
-      return;
-    }
     if(order.activeOrder?.state === OrderState.PAID) {
       order.startDelivery()
     } else if (order.activeOrder?.state === OrderState.IN_DELIVERY) {
       navigation.navigate({ name: 'tracking' });
     } else if(order.activeOrder?.state === OrderState.DELIVERED || order.activeOrder?.state === OrderState.FINISHED) {
       navigation.navigate({ name: 'done' });
-      order.notifyFinished()
     }
   }, [order.activeOrder?.state])
 

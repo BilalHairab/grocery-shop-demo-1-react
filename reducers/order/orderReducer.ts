@@ -1,4 +1,4 @@
-import { OrderCartState, OrderAction, OrderState } from "./orderReducer.types";
+import { OrderCartState, OrderAction, OrderState, DeliveryMethods } from "./orderReducer.types";
 
 const initialState: OrderCartState = {
     orders: [],
@@ -14,7 +14,9 @@ export default function reducer(state = initialState, action: OrderAction): Orde
                 activeOrder: {
                     state: OrderState.INITIALIZED,
                     cart: action.payload.cartItems,
-                    date: Date.now()
+                    date: Date.now(),
+                    payment: undefined,
+                    delivery: DeliveryMethods[0]
                 }
             }
         }

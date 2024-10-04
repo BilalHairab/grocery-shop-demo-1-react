@@ -14,7 +14,7 @@ const useCurrentOrder = () => {
     const paymentMethods = useRef(PaymentMethods)
     const deliveryMethods = useRef(DeliveryMethods)
     const [availableDeliveryMethods, setAvailableDeliveryMethods] = useState([...deliveryMethods.current])
-    const [availablePaymentMethods, setAvailablePaymentMethods] = useState([...paymentMethods.current])
+    const [availablePaymentMethods, setAvailablePaymentMethods] = useState([])
     const [error, setError] = useState<string | undefined>(undefined);
 
     const calculateTotalAmount = useCallback(() => {
@@ -46,8 +46,6 @@ const useCurrentOrder = () => {
     const pay = () => {
         if(activeOrder?.delivery?.key === "no") {
             dispatch(orderActions.updateActiveOrderState(OrderState.FINISHED))
-            notifyFinished()
-            dispatch(cartActions.clearCart())
             return
         }
         if(activeOrder?.payment?.key === "cod") {
@@ -65,13 +63,13 @@ const useCurrentOrder = () => {
 
     const notifyDelivered = () => {
         dispatch(orderActions.updateActiveOrderState(OrderState.DELIVERED))
-        notifyFinished()
-        dispatch(cartActions.clearCart())
     }
 
     const notifyFinished = () => {
+        dispatch(cartActions.clearCart())
         dispatch(orderActions.finishOrder())
     }
+
     const setPayment = (paymentKey?: string) => {
         const payment = availablePaymentMethods.find((item: PaymentOption) => item.key === paymentKey);
         dispatch(orderActions.setOrderPayment(payment));
