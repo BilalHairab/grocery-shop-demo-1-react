@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '.';
 import OrderScreen from './order';
 import CartScreen from './cart';
-import MoreScreen from './more';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import ProfileScreen from './profile';
 
 export default function TabLayout() {
   const background = useThemeColor({}, 'primary');
@@ -59,11 +59,11 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="more"
-        component={MoreScreen}
+        component={ProfileScreen}
         options={{
-          title: 'More',
+          title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? 'cube' : 'cube-outline'} color={color} />
+            <Icon name={focused ? 'person' : 'person-outline'} color={color} />
           ),
         }}
       />
