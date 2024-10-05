@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import cartActions from '@/reducers/cart/cartActions'
 import { cartItemSelector } from "@/reducers/cart/cartSelectors";
 import QuantityCounter from "./QuantityCounter";
+import { Icon } from "./navigation/Icon";
 
 type ItemProps = {
     item: any;
@@ -20,25 +21,32 @@ type Props = PropsWithChildren<ItemProps>
 export default function CartItem(props: Props) {
     const dispatch = useDispatch();
     const itemInCart = useSelector(cartItemSelector(props.item.id))
-    if(itemInCart === undefined) {
+    if (itemInCart === undefined) {
         return <View></View>;
     }
     return (
         <TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPressed} >
             <View style={{ flexDirection: 'row', columnGap: 10, flex: 10 }}>
-                <Image source={{ uri: props.item.filename }} style={{ width: 80, height: 100, borderRadius: 5, opacity: 0.7 }} resizeMode='stretch' />
-                <View style={{ alignSelf: 'flex-start', flexDirection: 'column', height: '100%', paddingVertical: 10, justifyContent: 'space-between' }}>
+                <Image source={{ uri: props.item.filename }} style={{ width: 100, height: 120, borderRadius: 5, opacity: 0.7 }} resizeMode='stretch' />
+                <View style={{ alignSelf: 'flex-start', flexDirection: 'column', height: '100%', width: '100%', paddingVertical: 10, rowGap: 15 }}>
                     <TitleText text={props.item.title} style={{ color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold' }}></TitleText>
-                    <AccentText text={"AED " + props.item.price}/>
+                    <AccentText text={"AED " + props.item.price} />
+                    <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'flex-end' }}>
+                        <QuantityCounter counter={itemInCart.count} horizontal={true} maxAllowed={10} requestToUpdateCB={(quantity: number) => {
+                            if (quantity > 0) {
+                                dispatch(cartActions.addItem(itemInCart.item))
+                            } else if (quantity < 0) {
+                                dispatch(cartActions.removeItem(itemInCart.item))
+                            }
+                        }} />
+                    </View>
                 </View>
             </View>
-            <QuantityCounter counter={itemInCart.count} horizontal={false} maxAllowed={10} style={{ flex: 1 }} requestToUpdateCB={(quantity: number) => {
-                if(quantity > 0) {
-                    dispatch(cartActions.addItem(itemInCart.item))
-                } else if (quantity < 0) {
-                    dispatch(cartActions.removeItem(itemInCart.item))
-                }
-            } }/>
+            <TouchableOpacity style={{ position: 'absolute', bottom: 15, right: 10 }} onPress={() => {
+                dispatch(cartActions.clearItem(itemInCart.item.id))
+            }}>
+                <Icon name={"trash-outline"} size={27} color={individualColors.backgroundLight} />
+            </TouchableOpacity>
         </TouchableOpacity>)
 }
 

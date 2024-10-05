@@ -1,4 +1,4 @@
-import { CartActionAdd, CartActionClear, CartActionRemove, CartActionViewItem, CartItem } from "./cartReducer.types";
+import { CartActionAdd, CartActionClear, CartActionRemove, CartActionViewItem, CartActionClearItem, CartItem } from "./cartReducer.types";
 
 export default {
     addItem: (item: CartItem): CartActionAdd => {
@@ -6,6 +6,14 @@ export default {
             type: 'add',
             payload: {
                 item
+            }
+        }
+    },
+    clearItem: (id: string): CartActionClearItem => {
+        return {
+            type: 'clearItem',
+            payload: {
+                id
             }
         }
     },

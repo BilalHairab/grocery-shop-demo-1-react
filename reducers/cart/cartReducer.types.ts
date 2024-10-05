@@ -20,12 +20,19 @@ export type CartState = {
     viewingItem: CartItem | undefined;
 };
 
-export type CartAction = CartActionAdd | CartActionRemove | CartActionClear | CartActionViewItem;
+export type CartAction = CartActionAdd | CartActionRemove | CartActionClear | CartActionViewItem | CartActionClearItem;
 
 export type CartActionAdd = {
     type: "add";
     payload: {
         item: CartItem;
+    }
+};
+
+export type CartActionClearItem = {
+    type: "clearItem";
+    payload: {
+        id: string;
     }
 };
 

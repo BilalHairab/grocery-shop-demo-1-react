@@ -57,6 +57,13 @@ export default function reducer(state = initialState, action: CartAction): CartS
                 ...state,
                 items: {},
             }
+        case "clearItem":
+            let newItems = {...state.items}
+            delete newItems[action.payload.id]
+            return {
+                ...state,
+                items: newItems,
+            }
         case "viewItem":
             return {
                 ...state,

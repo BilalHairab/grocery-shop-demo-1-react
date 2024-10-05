@@ -8,7 +8,7 @@ import CartItem from '@/components/CartItem';
 import TitleText from '@/components/TitleText';
 import RoundedButton from '@/components/RoundedButton';
 import AccentText from '@/components/AccentText';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CartItemCounter } from '@/reducers/cart/cartReducer.types';
 import { router } from 'expo-router';
 import cartActions from '@/reducers/cart/cartActions';
@@ -21,10 +21,13 @@ export default function CartScreen() {
   const secondBackgroundColor = useThemeColor({}, 'background');
   const dispatch = useDispatch();
   const calculateTotalAmount = useCallback(() => {
+    if(cartItems === undefined) {
+      return 0.0;
+    }
     const items: CartItemCounter[] = Object.values(cartItems);
     let total = 0;
     for(const item of items) {
-      total += (item.count * item.item.price)
+        total += (item.count * item.item.price)
     }
     return total;
   }, [cartItems]);
@@ -43,9 +46,8 @@ export default function CartScreen() {
               router.push('/(product)');
             }}/>
           }} />
-          {Object.values(cartItems).length > 0 && <AccentText text={`Total: ${calculateTotalAmount().toFixed(2)} AED`} style={{textAlign: 'center'}} />}
+          <AccentText text={`Total: ${calculateTotalAmount().toFixed(2)} AED`} style={{textAlign: 'center'}} />
           {Object.values(cartItems).length > 0 && <RoundedButton style={{width: '100%', alignSelf: 'flex-end'}} title='Checkout' isLightButton={true} onPress={() => {
-              console.log(`start pressed ${JSON.stringify(Object.values(cartItems))}`)
               order.startOrder(Object.values(cartItems));
               router.push('/checkout');
           }}/>}

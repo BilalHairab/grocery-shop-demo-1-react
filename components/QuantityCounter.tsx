@@ -24,11 +24,17 @@ export default function QuantityCounter(props: Props) {
         <View style={[styles.mainItem, props.style, isHorizontal.current ? { flexDirection:  'row-reverse', columnGap: 10, alignSelf: 'center' } : {flexDirection: 'column', rowGap: 5, alignSelf: 'center'}, props.isLightButton ? styles.darkButton : styles.lightButton]} >
             <TouchableOpacity style={[styles.button]} disabled={props.maxAllowed !== undefined && (props.counter === props.maxAllowed)} onPress={() => {
                 props.requestToUpdateCB(+1);
-            }}><HeaderText text="+" isLightText={!props.isLightButton}/></TouchableOpacity>
-            <TitleText text={`${props.counter}`} style={{ alignSelf: 'center', alignItems: 'center' }} isLightText={!props.isLightButton}/>
+            }}>
+                <TitleText text="+" isLightText={!props.isLightButton}/>
+            </TouchableOpacity>
+
+            <DescriptionText text={`${props.counter}`} style={{ alignSelf: 'center', alignItems: 'center' }} isLightText={!props.isLightButton}/>
+            
             <TouchableOpacity style={[styles.button]} disabled={props.maxAllowed !== undefined && (props.counter === props.maxAllowed)} onPress={() => {
                 props.requestToUpdateCB(-1);
-            }}><HeaderText text="-" isLightText={!props.isLightButton}/></TouchableOpacity>
+            }}>
+                <TitleText text="-" isLightText={!props.isLightButton}/>
+            </TouchableOpacity>
         </View>)
 }
 
@@ -37,12 +43,13 @@ const styles = StyleSheet.create({
         marginEnd: 5,
         alignItems: 'center',
         borderRadius: 100,
+        justifyContent: 'space-evenly'
     },
     button: {
         alignItems: 'center',
         padding: 0,
-        height: 40,
-        width: 40
+        height: 30,
+        width: 30
     },
     lightButton: {
         backgroundColor: individualColors['backgroundLight']
