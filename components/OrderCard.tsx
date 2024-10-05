@@ -35,6 +35,9 @@ export default function OrderCard(props: Props) {
     }, [props.item]);
   
     const getPaymentImage = useCallback(() => {
+        if(props.item.delivery?.key === "no") {
+            return undefined;
+        }
         if(props.item.payment?.key === "cod") {
             return cashPaymentImage;
         }
