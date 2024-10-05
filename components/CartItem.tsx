@@ -54,10 +54,16 @@ const styles = StyleSheet.create({
     mainItem: {
         borderRadius: 20,
         backgroundColor: individualColors['overflow'],
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 0},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
         flexDirection: 'row',
         flex: 1,
         rowGap: 5,
         padding: 10,
+        marginHorizontal: 10,
         justifyContent: 'space-between'
     },
     button: {

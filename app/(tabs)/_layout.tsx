@@ -19,12 +19,17 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: tabIconActive,
         headerShown: false,
-        tabBarInactiveTintColor: tabIconInactive,
+        tabBarInactiveTintColor: 'black',
         tabBarStyle: {
           backgroundColor: background,
           borderTopWidth: 0,
+          elevation: 10,
+          shadowColor: '#000',
+          shadowOffset: {width: 0, height: 0},
+          shadowOpacity: 0.2,
+          shadowRadius: 5,
           height: 95,
-          paddingVertical: 10
+          paddingTop: 10
         }
       }}>
       <Tabs.Screen
@@ -33,7 +38,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? 'home' : 'home-outline'} color={color} />
+            <Icon name={focused ? 'home' : 'home-outline'} color={color} size={focused ? 30 : 20}/>
           ),
         }}
       />
@@ -43,7 +48,7 @@ export default function TabLayout() {
         options={{
           title: 'Cart',
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? 'cart' : 'cart-outline'} color={color} />
+            <Icon name={focused ? 'cart' : 'cart-outline'} color={color} size={focused ? 30 : 20} />
           ),
         }}
       />
@@ -51,9 +56,9 @@ export default function TabLayout() {
         name="order"
         component={OrderScreen}
         options={{
-          title: 'Order',
+          title: 'Orders',
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? 'list' : 'list-outline'} color={color} />
+            <Icon name={focused ? 'list' : 'list-outline'} color={color} size={focused ? 30 : 20} />
           ),
         }}
       />
@@ -63,7 +68,7 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, focused }) => (
-            <Icon name={focused ? 'person' : 'person-outline'} color={color} />
+            <Icon name={focused ? 'person' : 'person-outline'} color={color} size={focused ? 30 : 20} />
           ),
         }}
       />

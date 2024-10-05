@@ -44,7 +44,7 @@ export default function ProfileScreen() {
             <DescriptionText text={'bilal.hairab@gmail.com'} style={{textAlign: 'center'}} />
           </View>
 
-          <View style={{alignItems: 'flex-start', flexDirection: 'column', rowGap: 20, marginTop: 40, marginEnd: 10, width: "100%"}}>
+          <View style={{alignItems: 'flex-start', flexDirection: 'column', rowGap: 15, marginTop: 40, marginEnd: 10, width: "100%"}}>
             {actions.current.map((action) => {
               return <ActionFullButton icon={action.icon} label={action.label} onPress={() => {
 

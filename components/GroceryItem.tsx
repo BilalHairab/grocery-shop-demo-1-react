@@ -1,11 +1,10 @@
 import { individualColors } from "@/constants/Colors";
 import React, { PropsWithChildren } from "react";
-import { TouchableOpacity, Text, StyleProp, ViewStyle, Image, View } from "react-native";
+import { TouchableOpacity, StyleProp, ViewStyle, Image, View } from "react-native";
 import { StyleSheet } from 'react-native';
 import TitleText from "./TitleText";
 import { AirbnbRating } from "react-native-ratings";
 import AccentText from "./AccentText";
-import SolidSquaredIcon from "./SolidSquaredIcon";
 import { useDispatch, useSelector } from "react-redux";
 import cartActions from '@/reducers/cart/cartActions'
 import { cartItemSelector, fullCartSelector } from "@/reducers/cart/cartSelectors";
@@ -24,11 +23,10 @@ type Props = PropsWithChildren<ItemProps>
 export default function GroceryItem(props: Props) {
     const dispatch = useDispatch();
     const existInCart = useSelector(cartItemSelector(props.item.id))
-    const itemInCart = useSelector(fullCartSelector)[existInCart?.id ?? -1];
 
     return (<TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPress} >
-        <Image source={{ uri: props.item.filename }} style={{ width: '100%', height: 150, borderRadius: 5, opacity: 0.7 }} resizeMode='cover' />
-        <TitleText text={props.item.title} style={{ color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold', alignSelf: 'flex-start' }}></TitleText>
+        <Image source={{ uri: props.item.filename }} style={{ width: '100%', height: 150, borderRadius: 5, opacity: 0.9 }} resizeMode='cover' />
+        <TitleText text={props.item.title} style={{ fontWeight: 'bold', alignSelf: 'flex-start' }}></TitleText>
         <View style={{ alignSelf: 'flex-start' }}>
             <AirbnbRating
                 isDisabled={true}
@@ -67,9 +65,15 @@ const styles = StyleSheet.create({
         backgroundColor: individualColors['overflow'],
         flexDirection: 'column',
         flex: 1,
+        marginHorizontal: 10,
         rowGap: 5,
         padding: 10,
-        alignItems: 'center'
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0, height: 0},
+        shadowOpacity: 0.3,
+        shadowRadius: 6,
+      alignItems: 'center'
     },
     button: {
         borderRadius: 40,

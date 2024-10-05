@@ -38,7 +38,7 @@ export default function CartScreen() {
           <View style={{ flexDirection: 'row', paddingHorizontal: 5, justifyContent: 'space-between', alignItems: 'center' }}>
             <HeaderText text='Cart' />
           </View>
-          <FlatList ListEmptyComponent={<View style={{height: '100%', flex: 1, alignSelf: 'center', alignContent: 'center'}}><TitleText style={{textAlign: 'center'}} text={'Nothing in cart, go add items from Home tab.'} /></View>} keyExtractor={(item: any) => item.item.id} style={{ marginVertical: 10, height: '100%' }} data={Object.values(cartItems) ?? []} ItemSeparatorComponent={(_) => {
+          <FlatList ListEmptyComponent={<View style={{height: '100%', flex: 1, alignSelf: 'center', alignContent: 'center' }}><TitleText style={{textAlign: 'center'}} text={'Nothing in cart, go add items from Home tab.'} /></View>} keyExtractor={(item: any) => item.item.id} style={{ marginVertical: 10, height: '100%', paddingTop: 10 }} data={Object.values(cartItems) ?? []} ItemSeparatorComponent={(_) => {
             return <View style={{ width: 10, height: 10 }} />
           }} renderItem={({ item, index }) => {
             return <CartItem item={item.item} onItemPressed={() => {

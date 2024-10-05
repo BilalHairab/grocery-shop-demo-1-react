@@ -3,12 +3,12 @@
  * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
  */
 
-const primary = '#002d5c';
-const secondaryFocus = '#ed00b8';
+const primary = '#fff';
+const secondaryFocus = '#fcba03';
 const unFocus = '#fff';
-const backgroundLight = '#F0F0F0';
-const backgroundDark = '#0f002e';
-const overflow = 'rgba(240, 240, 240, 0.3)';
+const backgroundLight = '#32a852';
+const backgroundDark = '#fff';
+const overflow = 'rgba(240, 240, 240, 0.9)';
 
 export const Colors = {
   light: {
