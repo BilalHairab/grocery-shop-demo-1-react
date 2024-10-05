@@ -1,17 +1,20 @@
-import { SafeAreaView, View, useColorScheme, FlatList, ScrollView } from 'react-native';
+import { SafeAreaView, View, useColorScheme, FlatList, ScrollView, StyleSheet } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import HeaderText from '@/components/HeaderText';
 import IconBorderedButton from '@/components/IconBorderedButton';
 import TitleText from '@/components/TitleText';
 import RoundedButton from '@/components/RoundedButton';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigation, useRouter } from 'expo-router';
 import OrderSummaryItem from '@/components/OrderSummaryItem';
 import { individualColors } from '@/constants/Colors';
 import RadioGroup, { RadioGroupItem } from '@/components/RadioGroup';
 import { DeliveryOption, OrderState, PaymentOption } from '@/reducers/order/orderReducer.types';
 import useCurrentOrder from '@/hooks/useCurrentOrder';
+import AccentText from '@/components/AccentText';
+import { CartItemCounter } from '@/reducers/cart/cartReducer.types';
+import DescriptionText from '@/components/DescriptionText';
 
 export default function OrderSummaryScreen() {
   const order = useCurrentOrder();
@@ -31,6 +34,18 @@ export default function OrderSummaryScreen() {
     }
   }, [order.activeOrder?.state])
 
+  const calculateSubTotalAmount = useCallback(() => {
+    if(order.activeOrder?.cart === undefined) {
+      return 0.0;
+    }
+    const items: CartItemCounter[] = order.activeOrder?.cart;
+    let total = 0;
+    for(const item of items) {
+        total += (item.count * item.item.price)
+    }
+    return total;
+  }, [order.activeOrder?.cart]);
+
   useEffect(() => {
     if(order.error) {
       alert(order.error)
@@ -47,17 +62,6 @@ export default function OrderSummaryScreen() {
             }} />
 
             <HeaderText text='Order Summary' />
-          </View>
-          <TitleText text='Items' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
-          <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
-            <FlatList
-              keyExtractor={(item: any) => item.item.id} style={{ marginVertical: 10, height: 'auto', }} data={Object.values(order.activeOrder?.cart ?? [])} ItemSeparatorComponent={(_) => {
-                return <View style={{ width: '100%', padding: 5, height: 5 }} ><View style={{ width: '100%', height: 1, backgroundColor: 'grey' }} /></View>
-              }} 
-              renderItem={({ item, index }) => {
-                return <OrderSummaryItem item={item} />
-              }} />
-
           </View>
           <TitleText text='Delivery' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
           <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
@@ -91,7 +95,36 @@ export default function OrderSummaryScreen() {
             </View>
           </View></>)}
           
-          {Object.values(order.activeOrder?.cart ?? []).length > 0 && <RoundedButton style={{ width: '100%', alignSelf: 'flex-end', marginVertical: 10 }} title={`Finalize (${Number(order.total.toFixed(2))} AED)`} isLightButton={true} onPress={() => {
+          <TitleText text='Order' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
+          <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
+            <FlatList
+              keyExtractor={(item: any) => item.item.id} style={{ marginTop: 10, height: 'auto', }} data={Object.values(order.activeOrder?.cart ?? [])}
+              renderItem={({ item, index }) => {
+                return <OrderSummaryItem item={item} />
+              }} />
+            <View style={[styles.mainItem]}>
+              <DescriptionText text={`Sub Total`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
+              <AccentText text={`AED ${(calculateSubTotalAmount()).toFixed(2)}`} />
+            </View>
+            <View style={{height: 10, padding: 5}}>
+              <View style={{ height: 1, backgroundColor: 'grey' }}/>
+            </View>
+            <View style={[styles.mainItem]}>
+              <DescriptionText text={`Delivery Fees`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
+              <AccentText text={`AED ${(order.activeOrder?.delivery?.fees ?? 0).toFixed(2)}`} />
+            </View>
+            <View style={[styles.mainItem]}>
+              <DescriptionText text={`Payment Fees`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
+              <AccentText text={`AED ${((order.activeOrder?.payment?.fees ?? 0)).toFixed(2)}`} />
+            </View>
+            <View style={[styles.mainItem]}>
+              <DescriptionText text={`Total`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
+              <AccentText text={`AED ${Number(order.total.toFixed(2)).toFixed(2)}`} />
+            </View>
+
+          </View>
+
+          {Object.values(order.activeOrder?.cart ?? []).length > 0 && <RoundedButton style={{ width: '100%', alignSelf: 'flex-end', marginVertical: 10 }} title={`Proceed`} isLightButton={true} onPress={() => {
             order.pay()
           }} />}
 
@@ -100,3 +133,13 @@ export default function OrderSummaryScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+    mainItem: {
+      flexDirection: 'row',
+      rowGap: 5,
+      padding: 15,
+      width: '100%',
+      justifyContent: 'space-between'
+  }
+})

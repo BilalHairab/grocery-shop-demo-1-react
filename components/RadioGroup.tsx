@@ -16,7 +16,7 @@ type RadioButtonProps = {
 const CustomRadioButton = (itemProps: RadioButtonProps) => (
     <TouchableOpacity
         style={[styles.radioButton,
-            , itemProps.selected ? { borderColor: individualColors.backgroundLight, borderWidth: 2 } : {
+            , itemProps.selected ? { borderColor: individualColors.backgroundLight, borderWidth: 2, backgroundColor: individualColors.backgroundDark } : {
                 borderWidth: 0.5,
                 borderColor: 'grey',
             }]}
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'space-between',
         width: "100%",
-        rowGap: 10,
+        rowGap: 5,
     },
     radioButtonText: {
         fontSize: 16,
