@@ -18,6 +18,7 @@ export default function CheckoutScreen() {
   const shopImage = require('@/assets/images/shop.png')
   const [index, setIndex] = useState(0);
   let orderCordinates = [{ latitude: 37.79825, longitude: -122.4224, },
+  { "latitude": 37.7973874, "longitude": -122.4222965 },
   { "latitude": 37.79738, "longitude": -122.42208 },
   { "latitude": 37.79691, "longitude": -122.42199 },
   { "latitude": 37.79684, "longitude": -122.42253 },
@@ -86,7 +87,7 @@ export default function CheckoutScreen() {
           }}
         >
           <MapViewDirections
-            origin={orderCordinates[0]}
+            origin={orderCordinates[1]}
             destination={destinationCordinates}
             apikey={"AIzaSyCisiNCSjU18_FQ1poeryAyc2axS2YDa6E"} // insert your API Key here
             strokeWidth={4}
