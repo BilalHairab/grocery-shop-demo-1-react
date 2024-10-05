@@ -20,7 +20,7 @@ export const PaymentMethods = [{
 export type PaymentOption = typeof PaymentMethods[number];
 
 export const DeliveryMethods = [{ key: 'no', label: "Pickup from Store", fees: 0 },
-{ key: 'normal', label: "Normal (1 days, +5 AED)", fees: 5 },
+{ key: 'normal', label: "Normal (Tomorrow, +5 AED)", fees: 5 },
 { key: 'express', label: "Instant (+10 AED)", fees: 10 }] as const;
 
 

@@ -15,22 +15,23 @@ type RadioButtonProps = {
 const CustomRadioButton = (itemProps: RadioButtonProps) => (
     <TouchableOpacity
         style={[styles.radioButton,
-        { backgroundColor: itemProps.selected ? '#007BFF' : 'transparent' }]}
+            , itemProps.selected ? { borderColor: individualColors.backgroundLight, borderWidth: 2 } : {
+                borderWidth: 0.5,
+                borderColor: 'grey',
+            }]}
         onPress={itemProps.onSelect}
     >
         <DescriptionText style={[styles.radioButtonText,
-        { color: itemProps.selected ? individualColors.backgroundDark : individualColors.backgroundLight }]} text={itemProps.label}/>
-            
+        ]} text={itemProps.label} />
+
     </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
     radioButton: {
-        paddingVertical: 8,
+        padding: 8,
         borderRadius: 8,
         marginVertical: 8,
-        borderWidth: 1,
-        borderColor: '#007BFF',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
         height: 50
     },
     radioButtonText: {
-        padding: 10,
         fontSize: 16,
     },
 });

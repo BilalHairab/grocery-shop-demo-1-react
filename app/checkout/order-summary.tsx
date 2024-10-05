@@ -49,17 +49,18 @@ export default function OrderSummaryScreen() {
             <HeaderText text='Order Summary' />
           </View>
           <TitleText text='Items' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
-          <View style={{ borderRadius: 20, backgroundColor: individualColors['overflow'] }}>
+          <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
             <FlatList
               keyExtractor={(item: any) => item.item.id} style={{ marginVertical: 10, height: 'auto', }} data={Object.values(order.activeOrder?.cart ?? [])} ItemSeparatorComponent={(_) => {
-                return <View style={{ width: 10, height: 10 }} />
-              }} renderItem={({ item, index }) => {
+                return <View style={{ width: '100%', padding: 5, height: 5 }} ><View style={{ width: '100%', height: 1, backgroundColor: 'grey' }} /></View>
+              }} 
+              renderItem={({ item, index }) => {
                 return <OrderSummaryItem item={item} />
               }} />
 
           </View>
           <TitleText text='Delivery' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
-          <View style={{ borderRadius: 20, backgroundColor: individualColors['overflow'] }}>
+          <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
             <View style={{ marginVertical: 10, marginHorizontal: 8 }}>
               <RadioGroup items={deliveryOptions.map((option: DeliveryOption) => {
                 return {
@@ -75,7 +76,7 @@ export default function OrderSummaryScreen() {
           </View>
 
           {paymentOptions.length > 0 && (<><TitleText text='Payment' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
-          <View style={{ borderRadius: 20, backgroundColor: individualColors['overflow'] }}>
+          <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
             <View style={{ marginVertical: 10, marginHorizontal: 8 }}>
               <RadioGroup items={paymentOptions.map((option: PaymentOption) => {
                 return {

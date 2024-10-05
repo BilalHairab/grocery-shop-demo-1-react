@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     largebutton: {
-        borderRadius: 40,
+        borderRadius: 15,
         alignItems: 'center',
         padding: 15,
     },

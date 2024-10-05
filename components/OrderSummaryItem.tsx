@@ -16,7 +16,7 @@ type Props = PropsWithChildren<ItemProps>
 export default function OrderSummaryItem(props: Props) {
     return (
         <View style={[styles.mainItem, props.style]}>
-            <TitleText text={`${props.item.item.title} (x ${props.item.count})`} style={{ flex: 7, color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold' }}></TitleText>
+            <TitleText text={`${props.item.item.title} (x${props.item.count})`} style={{ flex: 7, color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold' }}></TitleText>
             <AccentText text={`AED ${(props.item.item.price * props.item.count).toFixed(2)}`} />
         </View>)
 }
