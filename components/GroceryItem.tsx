@@ -23,6 +23,7 @@ type Props = PropsWithChildren<ItemProps>
 export default function GroceryItem(props: Props) {
     const dispatch = useDispatch();
     const existInCart = useSelector(cartItemSelector(props.item.id))
+    const itemInCart = useSelector(fullCartSelector)[existInCart?.id ?? -1];
 
     return (<TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPress} >
         <Image source={{ uri: props.item.filename }} style={{ width: '100%', height: 150, borderRadius: 5, opacity: 0.9 }} resizeMode='cover' />
