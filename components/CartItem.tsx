@@ -30,7 +30,7 @@ export default function CartItem(props: Props) {
                 <Image source={{ uri: props.item.filename }} style={{ width: 100, height: 120, borderRadius: 5, opacity: 0.7 }} resizeMode='stretch' />
                 <View style={{ alignSelf: 'flex-start', flexDirection: 'column', height: '100%', width: '100%', paddingVertical: 10, rowGap: 15 }}>
                     <TitleText text={props.item.title} style={{ color: props.isLightButton ? individualColors['backgroundDark'] : individualColors['backgroundLight'], fontWeight: 'bold' }}></TitleText>
-                    <AccentText text={"AED " + props.item.price} />
+                    <AccentText text={"AED " + (props.item.price * itemInCart.count).toFixed(2)} />
                     <View style={{ flexDirection: 'row', width: '100%', alignSelf: 'flex-end' }}>
                         <QuantityCounter counter={itemInCart.count} horizontal={true} maxAllowed={10} requestToUpdateCB={(quantity: number) => {
                             if (quantity > 0) {

@@ -54,15 +54,23 @@ export default function OrderSummaryScreen() {
 
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: secondBackgroundColor, flexDirection: 'column' }}>
-      <View style={{ backgroundColor: primaryColor, height: '100%' }}>
+      <View style={{ flexDirection: 'row', paddingHorizontal: 5, columnGap: 10, alignItems: 'center' }}>
+        <IconBorderedButton size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
+          router.back();
+        }} />
+        <HeaderText text='Order Summary' />
+      </View>
+      <View style={{ backgroundColor: primaryColor, height: '90%' }}>
         <ScrollView style={{ backgroundColor: secondBackgroundColor, height: '100%', padding: 10, rowGap: 5 }}>
-          <View style={{ flexDirection: 'row', paddingHorizontal: 5, columnGap: 10, alignItems: 'center' }}>
-            <IconBorderedButton size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
-              router.back();
-            }} />
-
-            <HeaderText text='Order Summary' />
+          <TitleText text='Items' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
+          <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
+            <FlatList
+              keyExtractor={(item: any) => item.item.id} style={{ marginTop: 10, height: 'auto', }} data={Object.values(order.activeOrder?.cart ?? [])}
+              renderItem={({ item, index }) => {
+                return <OrderSummaryItem item={item} />
+              }} />
           </View>
+
           <TitleText text='Delivery' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
           <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
             <View style={{ marginVertical: 10, marginHorizontal: 8 }}>
@@ -97,17 +105,9 @@ export default function OrderSummaryScreen() {
           
           <TitleText text='Order' style={{ paddingStart: 10, paddingTop: 15, marginBottom: 10 }} />
           <View style={{ borderRadius: 3, backgroundColor: individualColors['overflow'] }}>
-            <FlatList
-              keyExtractor={(item: any) => item.item.id} style={{ marginTop: 10, height: 'auto', }} data={Object.values(order.activeOrder?.cart ?? [])}
-              renderItem={({ item, index }) => {
-                return <OrderSummaryItem item={item} />
-              }} />
             <View style={[styles.mainItem]}>
               <DescriptionText text={`Sub Total`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
               <AccentText text={`AED ${(calculateSubTotalAmount()).toFixed(2)}`} />
-            </View>
-            <View style={{height: 10, padding: 5}}>
-              <View style={{ height: 1, backgroundColor: 'grey' }}/>
             </View>
             <View style={[styles.mainItem]}>
               <DescriptionText text={`Delivery Fees`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
@@ -117,11 +117,13 @@ export default function OrderSummaryScreen() {
               <DescriptionText text={`Payment Fees`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
               <AccentText text={`AED ${((order.activeOrder?.payment?.fees ?? 0)).toFixed(2)}`} />
             </View>
+            <View style={{height: 10, padding: 5}}>
+              <View style={{ height: 1, backgroundColor: 'grey' }}/>
+            </View>
             <View style={[styles.mainItem]}>
               <DescriptionText text={`Total`} style={{ flex: 7, fontWeight: 'bold' }}></DescriptionText>
               <AccentText text={`AED ${Number(order.total.toFixed(2)).toFixed(2)}`} />
             </View>
-
           </View>
 
           {Object.values(order.activeOrder?.cart ?? []).length > 0 && <RoundedButton style={{ width: '100%', alignSelf: 'flex-end', marginVertical: 10 }} title={`Proceed`} isLightButton={true} onPress={() => {
