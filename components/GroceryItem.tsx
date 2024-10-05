@@ -23,6 +23,7 @@ type Props = PropsWithChildren<ItemProps>
 export default function GroceryItem(props: Props) {
     const dispatch = useDispatch();
     const existInCart = useSelector(cartItemSelector(props.item.id))
+    //Important to re-render on each update
     const itemInCart = useSelector(fullCartSelector)[existInCart?.id ?? -1];
 
     return (<TouchableOpacity style={[styles.mainItem, props.style]} onPress={props.onItemPress} >
