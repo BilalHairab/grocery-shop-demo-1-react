@@ -18,8 +18,8 @@ export default function OrderDoneScreen() {
         <HeaderText text='Order Completed' />
       </View>
 
-      <View style={{height: '100%', flex: 1, justifyContent: 'space-around'}}>
-        <View style={{alignItems: 'center', width: '100%'}}>
+      <View style={{height: '100%', flex: 1, justifyContent: 'space-around', marginHorizontal: 10}}>
+        <View style={{alignItems: 'center', width: '100%' }}>
           <TitleText text={order.activeOrder?.state === OrderState.DELIVERED ? 'The order you requested has been delivered to you, thank you and buy again!': 'The order should be ready soon at the store, go pick it up!'} style={{textAlign: 'center', marginHorizontal: 10}}/>
           <RoundedButton style={{ marginTop: 40, width: '100%' }} title={'Okay'} isLightButton={true} onPress={() => {
             order.notifyFinished()
