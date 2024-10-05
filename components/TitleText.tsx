@@ -12,5 +12,5 @@ type Props = PropsWithChildren<TitleTextProps>
 
 export default function TitleText(props: Props) {
     return (
-        <Text style={[{fontSize: 20, fontWeight: 'bold'}, props.style]}>{props.text}</Text>)
+        <Text style={[{fontSize: 20, fontWeight: 'bold', color: props.isLightText === undefined ? undefined : props.isLightText ? individualColors['backgroundDark'] : individualColors['backgroundLight']}, props.style]}>{props.text}</Text>)
 }
