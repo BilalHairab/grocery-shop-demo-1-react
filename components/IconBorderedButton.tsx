@@ -20,7 +20,8 @@ export default function IconBorderedButton(props: Props) {
 const styles = StyleSheet.create({
     button: {
         borderRadius: 50,
-        backgroundColor: 'tranparent',
+        backgroundColor: individualColors.overflow,
+        opacity: 0.7,
         borderColor: individualColors.overflow,
         paddingVertical: 15,
         paddingHorizontal: 8,

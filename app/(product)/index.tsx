@@ -12,6 +12,7 @@ import DescriptionText from '@/components/DescriptionText';
 import RoundedButton from '@/components/RoundedButton';
 import cartActions from '@/reducers/cart/cartActions';
 import AccentText from '@/components/AccentText';
+import { individualColors } from '@/constants/Colors';
 
 export default function ProductDetailsScreen() {
   const primaryColor = useThemeColor({}, 'primary');
@@ -21,17 +22,16 @@ export default function ProductDetailsScreen() {
   const itemInCart = useSelector(fullCartSelector)[currentItem?.id ?? -1];
   return (
     <SafeAreaView style={{ height: '100%', flexDirection: 'column', backgroundColor: secondBackgroundColor }}>
-      <View style={{ flexDirection: 'row', paddingHorizontal: 5, justifyContent: 'space-between', alignItems: 'center', backfaceVisibility: 'hidden' }}>
-        <IconBorderedButton size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
-          router.back();
-        }} />
-      </View>
-      {currentItem ? <ScrollView>
-        <View style={{ marginHorizontal: 10, rowGap: 20 }}>
-          <View style={{ width: '100%' }}>
-            <Image source={{ uri: currentItem.filename }} style={{ width: currentItem.width * 3 / 4, height: currentItem.height * 3 / 4, borderRadius: 5, alignSelf: 'center' }} resizeMode='contain' />
-          </View>
-          <View style={{ flexDirection: 'row' }}>
+      {currentItem ? (
+      <View style={{height: '100%'}}>
+        <View style={{height: '55%'}}>
+          <Image source={{ uri: currentItem.filename }} style={{ width: '100%', height: '100%', alignSelf: 'center' }} resizeMode='stretch' />
+          <IconBorderedButton style={{ position: 'absolute', top: 15, left: 10 }} size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
+              router.back();
+            }} />
+        </View>
+        <View style={{height: '60%', width: '100%', position: 'absolute', top: '50%', borderTopStartRadius: 20, borderTopEndRadius: 20, backgroundColor: individualColors.backgroundDark, padding: 10, rowGap: 15}} >
+        <View style={{ flexDirection: 'row' }}>
             <HeaderText text={currentItem.title} style={{ flex: 7 }} />
             {itemInCart && <QuantityCounter style={{ columnGap: 10, flex: 3 }} counter={itemInCart?.count ?? 0} horizontal={true} requestToUpdateCB={(quantity: number) => {
                 if (quantity > 0) {
@@ -67,7 +67,8 @@ export default function ProductDetailsScreen() {
           }}/>}
 
         </View>
-      </ScrollView> : <ActivityIndicator size={400} />}
+      </View>
+    ): <ActivityIndicator size={400} />}
     </SafeAreaView>
   );
 }
