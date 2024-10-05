@@ -40,7 +40,7 @@ export default function OrderSummaryScreen() {
   return (
     <SafeAreaView style={{ height: '100%', backgroundColor: secondBackgroundColor, flexDirection: 'column' }}>
       <View style={{ backgroundColor: primaryColor, height: '100%' }}>
-        <ScrollView style={{ backgroundColor: secondBackgroundColor, height: '100%', borderBottomLeftRadius: 50, borderBottomRightRadius: 50, padding: 10, rowGap: 5 }}>
+        <ScrollView style={{ backgroundColor: secondBackgroundColor, height: '100%', padding: 10, rowGap: 5 }}>
           <View style={{ flexDirection: 'row', paddingHorizontal: 5, columnGap: 10, alignItems: 'center' }}>
             <IconBorderedButton size={35} name='arrow-back' isLightButton={useColorScheme() !== 'light'} onPress={() => {
               router.back();
@@ -65,7 +65,7 @@ export default function OrderSummaryScreen() {
               <RadioGroup items={deliveryOptions.map((option: DeliveryOption) => {
                 return {
                   key: option.key,
-                  label: option.label,
+                  labels: [option.label, option.subLabel, `+${option.fees} AED`],
                   value: option.fees as number,
                 } as RadioGroupItem;
               })}
@@ -81,7 +81,7 @@ export default function OrderSummaryScreen() {
               <RadioGroup items={paymentOptions.map((option: PaymentOption) => {
                 return {
                   key: option.key,
-                  label: option.label,
+                  labels: [option.label, `+${option.fees} AED`],
                   value: option.fees as number,
                 } as RadioGroupItem;
               })}
@@ -91,7 +91,7 @@ export default function OrderSummaryScreen() {
             </View>
           </View></>)}
           
-          {Object.values(order.activeOrder?.cart ?? []).length > 0 && <RoundedButton style={{ width: '100%', alignSelf: 'flex-end', marginTop: 10 }} title={`Finalize (${Number(order.total.toFixed(2))} AED)`} isLightButton={true} onPress={() => {
+          {Object.values(order.activeOrder?.cart ?? []).length > 0 && <RoundedButton style={{ width: '100%', alignSelf: 'flex-end', marginVertical: 10 }} title={`Finalize (${Number(order.total.toFixed(2))} AED)`} isLightButton={true} onPress={() => {
             order.pay()
           }} />}
 

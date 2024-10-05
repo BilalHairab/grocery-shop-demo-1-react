@@ -1,13 +1,14 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import {
-    View, Text, TouchableOpacity,
+    View, TouchableOpacity,
     StyleSheet
 } from 'react-native';
 import DescriptionText from './DescriptionText';
 import { individualColors } from '@/constants/Colors';
+import TitleText from './TitleText';
 
 type RadioButtonProps = {
-    label: string;
+    labels: string[];
     selected: boolean;
     onSelect: () => void;
 }
@@ -21,8 +22,14 @@ const CustomRadioButton = (itemProps: RadioButtonProps) => (
             }]}
         onPress={itemProps.onSelect}
     >
+        <TitleText style={[styles.radioButtonText,
+        ]} text={itemProps.labels[0]} />
+
         <DescriptionText style={[styles.radioButtonText,
-        ]} text={itemProps.label} />
+                ]} text={`${itemProps.labels[1]}`} />
+
+        {itemProps.labels.length > 2 && <DescriptionText style={[styles.radioButtonText,
+                ]} text={`${itemProps.labels[2]}`} />}
 
     </TouchableOpacity>
 );
@@ -32,18 +39,18 @@ const styles = StyleSheet.create({
         padding: 8,
         borderRadius: 8,
         marginVertical: 8,
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
         width: "100%",
-        height: 50
+        rowGap: 10,
     },
     radioButtonText: {
         fontSize: 16,
     },
 });
 export type RadioGroupItem = {
-    key: string, label: string, value: any
+    key: string, labels: string[], value: any
 };
 
 type RadioGroupProps = {
@@ -63,7 +70,7 @@ const RadioGroup = (props: Props) => {
             {props.items.map((item) => {
                 return <CustomRadioButton
                     key={item.key}
-                    label={item.label}
+                    labels={item.labels}
                     selected={selectedValue.key === item.key}
                     onSelect={() => setSelectedValue(item)}
                 />

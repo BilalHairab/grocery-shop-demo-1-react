@@ -8,7 +8,7 @@ export type OrderCartState = {
 
 export const PaymentMethods = [{
     key: 'cod',
-    label: "Cash On Delivery (+5 AED)",
+    label: "Cash On Delivery",
     fees: 5
 }, {
     key: 'credit_debit',
@@ -19,9 +19,9 @@ export const PaymentMethods = [{
 
 export type PaymentOption = typeof PaymentMethods[number];
 
-export const DeliveryMethods = [{ key: 'no', label: "Pickup from Store", fees: 0 },
-{ key: 'normal', label: "Normal (Tomorrow, +5 AED)", fees: 5 },
-{ key: 'express', label: "Instant (+10 AED)", fees: 10 }] as const;
+export const DeliveryMethods = [{ key: 'no', label: "Pickup from Store", subLabel: '1 Hour', fees: 0 },
+{ key: 'normal', label: "Normal Delivery", subLabel: 'Tomorrow', fees: 5 },
+{ key: 'express', label: "Instant Delivery", subLabel: '90 Minutes', fees: 10 }] as const;
 
 
 export type DeliveryOption = typeof DeliveryMethods[number];
