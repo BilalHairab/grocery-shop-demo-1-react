@@ -1,3 +1,20 @@
+# Grocery Online Shopping:
+
+A demo mobile application **React Native** to simulate a grocery store with ability to view, order, and pay for orders online.
+Used Firebase Functions as NodeJS server to support backend functionalities for Stripe Payment.
+# Key Technologies
+- React Native
+- Expo
+- Redux
+- Hooks
+- Custom Hooks
+- Maps
+- Map View Directions
+- Stripe
+
+# Video
+Can be viewed [here](https://drive.google.com/file/d/1Re3HNb3Rn-owQiR3CslgZyzc2IdnmF8u/view).
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
