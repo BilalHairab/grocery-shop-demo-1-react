@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import useCurrentOrder from '@/hooks/useCurrentOrder';
 import { OrderState } from '@/reducers/order/orderReducer.types';
 import RoundedButton from '@/components/RoundedButton';
+import { GOOGLE_API_KEY } from 'react-native-dotenv';
 
 export default function CheckoutScreen() {
   const secondBackgroundColor = useThemeColor({}, 'background');
@@ -89,7 +90,7 @@ export default function CheckoutScreen() {
           <MapViewDirections
             origin={orderCordinates[0]}
             destination={destinationCordinates}
-            apikey={"AIzaSyCisiNCSjU18_FQ1poeryAyc2axS2YDa6E"} // insert your API Key here
+            apikey={GOOGLE_API_KEY}
             strokeWidth={4}
             strokeColor="blue"
           />

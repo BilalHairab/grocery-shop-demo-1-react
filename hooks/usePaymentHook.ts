@@ -8,7 +8,8 @@ import {
   } from '@stripe/stripe-react-native';
   import { useEffect, useState } from 'react';
   const API_URL = 'https://groceryapp-xhq6gt7tia-uc.a.run.app'
-  
+  import { STRIPE_CLIENT_SECRET } from 'react-native-dotenv';
+
   const usePaymentHook = () => {
     const { loading, confirmPayment } = useConfirmPayment();
     // const { isApplePaySupported, presentApplePay } = useApplePay();
@@ -205,7 +206,7 @@ import {
         }
       }
     };
-  
+
     const fetchSetUpIntentClientSecret = async() => {
     //   const res =  await fetch(`${API_URL}/create-setup-intent`, {
     //     method: 'POST'
@@ -214,7 +215,7 @@ import {
     //   .catch((error) => {
     //    console.log(error)
     //   });
-      return "sk_test_51PyxnrRo9BR98qGjsLjeareIeGweppKDEjs6YyUKMuX3sDnSuU0Kvh4IycOt6f0yShpIdgTQMdKD7t06ra8hYUse00uPdABQvX";
+      return STRIPE_CLIENT_SECRET;
     }
   
     const addCardToWallet = async () => {
